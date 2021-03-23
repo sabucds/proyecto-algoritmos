@@ -13,4 +13,3 @@ class Juego():
         else:
             return False
     
-

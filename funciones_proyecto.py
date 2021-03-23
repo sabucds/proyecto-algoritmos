@@ -4,6 +4,15 @@ from escenarios import *
 import json 
 import os
 
+
+def mover_cuarto():  # moverse de un cuarto a otro (izquierda o derecha)
+    pass
+
+
+def tocar_objeto():  # tocar objeto para jugar
+    pass
+
+
 def menu_opciones(jugando):
     print('''---Menu de opciones---
 1- Mover a la derecha
@@ -16,12 +25,12 @@ def menu_opciones(jugando):
     opcion = input('==>')
 
 
-def en_juego(jugando):
+def en_juego(jugando): #
     print(narrativa1.format(jugando.tiempo))
     reto = ingresar_opcion('(S)i o (N)o', ('s','n'))
     if reto == 's':
         print(biblioteca)
-        print(narrativa2.format(jugando.username))
+        print(narrativa2.format(jugando.avatar))
         menu_opciones(jugando)
 
 
@@ -39,6 +48,7 @@ def buscar_dict_usuario(username): #busca un usuario en el archivo json y retorn
     for dic in data:
         if dic['username'] == username:
             return dic
+
 
 
 def nueva_partida(username):
@@ -181,6 +191,7 @@ def crear_usuario(data):
     data.append(n_jugador)
     with open('datos.json', 'w') as datos:
         json.dump(data, datos)
+    return username
 
 
 def usuario_existente():
@@ -193,8 +204,3 @@ def usuario_existente():
     return username
 
 
-def mover_cuarto():  # moverse de un cuarto a otro (izquierda o derecha)
-    pass
-
-def tocar_objeto(): #tocar objeto para jugar
-    pass

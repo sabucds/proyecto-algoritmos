@@ -33,6 +33,7 @@ def main():
         if opcion == '1':
             jugando = nueva_partida(username)
             en_juego(jugando)
+
         elif opcion=='2':
             pass
         else:
