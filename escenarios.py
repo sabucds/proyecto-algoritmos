@@ -1,4 +1,4 @@
-biblioteca = '''
+biblioteca_escenario = '''
 |----------------------------------------BIBLIOTECA------------------------------------------------|
 |     |                                                                                      |     |
 |     |                                                                                      |     |
@@ -24,7 +24,7 @@ biblioteca = '''
 '''
 
 
-laboratorio_sl = '''
+laboratorio_sl_escenario = '''
 |-----------------------------------------LABORATORIO-SL001----------------------------------------|
 |     |                                                                                      |     |
 |     |                                                                                      |     |
@@ -50,7 +50,7 @@ laboratorio_sl = '''
 '''
 
 
-plaza_rectorado = '''
+plaza_rectorado_escenario = '''
 |---------------------------------------------PLAZA-RECTORADO---------------------------------------|
 |     |                                                                                             |
 |     |                                     _{\ _{\{\/}/}/}__                                       |
@@ -75,7 +75,7 @@ plaza_rectorado = '''
 
 '''
 
-pasillo_labs = '''
+pasillo_labs_escenario = '''
 |--------------PASILLO-LABORATORIOS-------------|
 |                                               |
 |             .___________________.             |
@@ -103,7 +103,7 @@ pasillo_labs = '''
 
 '''
 
-cuarto_servidores = '''
+cuarto_servidores_escenario = '''
 |------------------------------------CUARTO-SERVIDORES-----------------------------------------|
 |     |
 |     |

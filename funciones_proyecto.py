@@ -1,38 +1,83 @@
 from jugador import *
 from narrativas import *
 from escenarios import *
+from cuarto import *
+from objeto import *
+from manejo_api import *
 import json 
 import os
 
 
-def mover_cuarto():  # moverse de un cuarto a otro (izquierda o derecha)
-    pass
+def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda o derecha)
+    if mov == 1:
+        cuarto_actual = cuarto_actual.derecha
+    elif mov == 2:
+        cuarto_actual = cuarto_actual.izquierda
+    return cuarto_actual
+
+def tocar_objeto(cuarto_actual, objeto):  # tocar objeto para jugar
+    objeto_tocado= Objeto(objeto['name'], objeto['position'], objeto['game'])
 
 
-def tocar_objeto():  # tocar objeto para jugar
-    pass
-
-
-def menu_opciones(jugando):
-    print('''---Menu de opciones---
-1- Mover a la derecha
-2- Mover a la izquierda
-3- Tocar {objeto}
-4- Tocar {objeto2}
-5- Tocar {objeto3}
+def menu_opciones(jugando, cuarto_actual):
+    while True:
+        print(cuarto_actual.escenario)
+        try:
+            menu = f'''---Menu de opciones---
+1- Ir al cuarto de la derecha 
+2- Ir al cuarto de la izquierda
+3- Tocar {cuarto_actual.objetos[0]["name"]}
+4- Tocar {cuarto_actual.objetos[1]["name"]}
+5- Tocar {cuarto_actual.objetos[2]["name"]}
 6- Ver mi tiempo
-''')
-    opcion = input('==>')
+7- Pausa
+''' 
+        except:
+            menu = f'''---Menu de opciones---
+2- Ir al cuarto de la izquierda
+3- Tocar {cuarto_actual.objetos[0]["name"]}
+6- Ver mi tiempo
+7- Pausa
+'''
+
+        if cuarto_actual.nombre == 'Plaza Rectorado' or cuarto_actual.nombre == 'Cuarto de Servidores ':
+            menu = menu.replace('1- Ir al cuarto de la derecha', '')
+            print(menu)
+            opcion = ingresar_opcion('opcion', (2, 3, 4, 5, 6, 7))
+        elif cuarto_actual.nombre == 'Pasillo Laboratorios ':
+            print(menu)
+            opcion = ingresar_opcion('opcion', (2, 3, 6, 7))
+        else:
+            print(menu)
+            opcion = ingresar_opcion('opcion', (1, 2, 3, 4, 5, 6, 7))
+
+        if opcion == 1:
+            cuarto_actual = mover_cuarto(cuarto_actual, opcion)
+        elif opcion == 2:
+            cuarto_actual = mover_cuarto(cuarto_actual, opcion)
+        elif opcion == 3:
+            tocar_objeto(cuarto_actual, cuarto_actual.objetos[0])
+        elif opcion == 4:
+            tocar_objeto(cuarto_actual, cuarto_actual.objetos[1])
+        elif opcion == 5:
+            tocar_objeto(cuarto_actual, cuarto_actual.objetos[2])
+        elif opcion == 6:
+            pass
+        else:
+            print('''1-Reanudar
+2-Salir del juego''')
+            pausa_op = ingresar_opcion('una opcion', (1, 2)) 
+            if pausa_op == 2: break
 
 
-def en_juego(jugando): #
+def en_juego(jugando, api): #
+
+    cuarto_actual = biblioteca
     print(narrativa1.format(jugando.tiempo))
     reto = ingresar_opcion('(S)i o (N)o', ('s','n'))
     if reto == 's':
-        print(biblioteca)
         print(narrativa2.format(jugando.avatar))
-        menu_opciones(jugando)
-
+        menu_opciones(jugando, cuarto_actual)
 
 
 def lista_datos(): # Mete una lista vacia en el archivo de datos en caso de que este en blanco

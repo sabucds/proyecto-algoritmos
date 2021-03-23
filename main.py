@@ -1,17 +1,20 @@
 from funciones_proyecto import *
+from manejo_api import *
 import json
 
 def main():
     while True:
         data = lista_datos()
-        print('''Bienvenido
+        inicio = '''Bienvenido
 1-Crear nuevo usuario
 2-Ingresar con usuario existente
-==>''')
+3-Salir'''
         if len(data) >0:
-            opcion = ingresar_opcion('una opcion', ('1', '2'))
+            print(inicio)
+            opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
         else:
-            opcion = '1'
+            print(inicio.replace('2-Ingresar con usuario existente', ''))
+            opcion = ingresar_opcion('una opcion', ('1', '3'))
         
         if opcion == '1':
             username = crear_usuario(data)
@@ -23,7 +26,10 @@ def main():
                 opcion = ingresar_opcion('S o N', ('s', 'n'))
                 if opcion == 's': break
                 username = usuario_existente()
-        if opcion == 's': continue
+            if opcion == 's': continue
+
+        else:
+            break
         
         print('''1-Comenzar nueva partida
 2-Ver instrucciones del juego
@@ -32,7 +38,7 @@ def main():
         opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
         if opcion == '1':
             jugando = nueva_partida(username)
-            en_juego(jugando)
+            en_juego(jugando, api)
 
         elif opcion=='2':
             pass
