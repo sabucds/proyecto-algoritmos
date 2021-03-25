@@ -2,6 +2,7 @@ from funciones_proyecto import *
 from manejo_api import *
 import json
 
+
 def main():
     while True:
         data = lista_datos()
@@ -38,7 +39,7 @@ def main():
         opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
         if opcion == '1':
             jugando = nueva_partida(username)
-            en_juego(jugando, api)
+            comenzar(jugando, api)
 
         elif opcion=='2':
             pass

@@ -6,6 +6,7 @@ from objeto import *
 from manejo_api import *
 import json 
 import os
+import time
 
 
 def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda o derecha)
@@ -19,8 +20,12 @@ def tocar_objeto(cuarto_actual, objeto):  # tocar objeto para jugar
     objeto_tocado= Objeto(objeto['name'], objeto['position'], objeto['game'])
 
 
-def menu_opciones(jugando, cuarto_actual):
-    while True:
+def en_juego(jugando, cuarto_actual):
+    tiempo_inicio = time.time()
+    cronometro = jugando.tiempo * 60
+    tiempo_transcurrido = 0
+    while tiempo_transcurrido < cronometro:
+        tiempo_transcurrido = time.time() - tiempo_inicio
         print(cuarto_actual.escenario)
         try:
             menu = f'''---Menu de opciones---
@@ -62,22 +67,27 @@ def menu_opciones(jugando, cuarto_actual):
         elif opcion == 5:
             tocar_objeto(cuarto_actual, cuarto_actual.objetos[2])
         elif opcion == 6:
-            pass
+            if cronometro > 0:
+                tiempo_transcurrido = time.time() - tiempo_inicio
+                print(f'Te quedan {cronometro - int(tiempo_transcurrido) } segundos')
+            else:
+                print('Se te acabo el tiempo')
         else:
             print('''1-Reanudar
 2-Salir del juego''')
             pausa_op = ingresar_opcion('una opcion', (1, 2)) 
             if pausa_op == 2: break
+            tiempo_inicio = time.time() - tiempo_transcurrido
 
 
-def en_juego(jugando, api): #
+def comenzar(jugando, api): #
 
     cuarto_actual = biblioteca
     print(narrativa1.format(jugando.tiempo))
     reto = ingresar_opcion('(S)i o (N)o', ('s','n'))
     if reto == 's':
         print(narrativa2.format(jugando.avatar))
-        menu_opciones(jugando, cuarto_actual)
+        en_juego(jugando, cuarto_actual)
 
 
 def lista_datos(): # Mete una lista vacia en el archivo de datos en caso de que este en blanco

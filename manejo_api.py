@@ -14,9 +14,10 @@ def get_data_api():
         return []
 
 
+
 api = get_data_api()
 
-for i, dic in enumerate(api): # crea los objetos cuarto con los datos de la API
+for i, dic in enumerate(api):  # crea los objetos cuarto con los datos de la API
     if dic['name'] == 'Biblioteca':
         biblioteca = Cuarto(dic['name'], dic['objects'], biblioteca_escenario)
     elif dic['name'] == 'Laboratorio SL001':
