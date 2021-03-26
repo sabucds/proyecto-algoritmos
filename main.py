@@ -1,4 +1,5 @@
 from funciones_proyecto import *
+from jugando import *
 from manejo_api import *
 import json
 
@@ -38,8 +39,8 @@ def main():
 ''')
         opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
         if opcion == '1':
-            jugando = nueva_partida(username)
-            comenzar(jugando, api)
+            jugador = nueva_partida(username)
+            comenzar(jugador, api)
 
         elif opcion=='2':
             pass

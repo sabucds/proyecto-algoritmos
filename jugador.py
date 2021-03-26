@@ -14,7 +14,12 @@ class Jugador():
         self.dificultad = dificultad
 
     def usar_pista(self): #gastar una pista en un juego
-        self.pistas -= 1
+        if self.pistas > 0:
+            self.pistas -= 1
+            return True
+        else:
+            print('No tienes mas pistas')
+            return False
 
     def guardar_objeto(self, objeto):  # guardar objeto en inventario
         self.inventario.append(objeto)
@@ -24,6 +29,8 @@ class Jugador():
     
     def perder_vida(self, cant_vida): #restar vida perdida a la vida total
         self.vidas -= cant_vida
+        if self.vidas <= 0:
+            pass
     
     
 

@@ -7,9 +7,9 @@ class Juego():
         self.reglas = reglas #str
         self.requerimento = requerimento #str
 
-    def verificar_requerimento(self, inventario):
-        if self.requerimento and (self.requerimento in inventario):
+    def verificar_jugabilidad(self, inventario, juegos_terminados): #verifica si el juego se puede jugar con el requerimento y si ya lo jugo o no
+        if (not self.requerimento or (self.requerimento in inventario)) and not (self.nombre in juegos_terminados):
             return True
         else:
             return False
-    
+

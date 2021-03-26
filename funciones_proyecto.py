@@ -7,87 +7,18 @@ from manejo_api import *
 import json 
 import os
 import time
+import random
+
+def generar_lista(dic): #genera una lista con las pistas de un diccionario
+    lista = []
+    for k,v in dic.items():
+        if 'clue' in k:
+            lista.append(v)
+    return lista
 
 
-def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda o derecha)
-    if mov == 1:
-        cuarto_actual = cuarto_actual.derecha
-    elif mov == 2:
-        cuarto_actual = cuarto_actual.izquierda
-    return cuarto_actual
-
-def tocar_objeto(cuarto_actual, objeto):  # tocar objeto para jugar
-    objeto_tocado= Objeto(objeto['name'], objeto['position'], objeto['game'])
-
-
-def en_juego(jugando, cuarto_actual):
-    tiempo_inicio = time.time()
-    cronometro = jugando.tiempo * 60
-    tiempo_transcurrido = 0
-    while tiempo_transcurrido < cronometro:
-        tiempo_transcurrido = time.time() - tiempo_inicio
-        print(cuarto_actual.escenario)
-        try:
-            menu = f'''---Menu de opciones---
-1- Ir al cuarto de la derecha 
-2- Ir al cuarto de la izquierda
-3- Tocar {cuarto_actual.objetos[0]["name"]}
-4- Tocar {cuarto_actual.objetos[1]["name"]}
-5- Tocar {cuarto_actual.objetos[2]["name"]}
-6- Ver mi tiempo
-7- Pausa
-''' 
-        except:
-            menu = f'''---Menu de opciones---
-2- Ir al cuarto de la izquierda
-3- Tocar {cuarto_actual.objetos[0]["name"]}
-6- Ver mi tiempo
-7- Pausa
-'''
-
-        if cuarto_actual.nombre == 'Plaza Rectorado' or cuarto_actual.nombre == 'Cuarto de Servidores ':
-            menu = menu.replace('1- Ir al cuarto de la derecha', '')
-            print(menu)
-            opcion = ingresar_opcion('opcion', (2, 3, 4, 5, 6, 7))
-        elif cuarto_actual.nombre == 'Pasillo Laboratorios ':
-            print(menu)
-            opcion = ingresar_opcion('opcion', (2, 3, 6, 7))
-        else:
-            print(menu)
-            opcion = ingresar_opcion('opcion', (1, 2, 3, 4, 5, 6, 7))
-
-        if opcion == 1:
-            cuarto_actual = mover_cuarto(cuarto_actual, opcion)
-        elif opcion == 2:
-            cuarto_actual = mover_cuarto(cuarto_actual, opcion)
-        elif opcion == 3:
-            tocar_objeto(cuarto_actual, cuarto_actual.objetos[0])
-        elif opcion == 4:
-            tocar_objeto(cuarto_actual, cuarto_actual.objetos[1])
-        elif opcion == 5:
-            tocar_objeto(cuarto_actual, cuarto_actual.objetos[2])
-        elif opcion == 6:
-            if cronometro > 0:
-                tiempo_transcurrido = time.time() - tiempo_inicio
-                print(f'Te quedan {cronometro - int(tiempo_transcurrido) } segundos')
-            else:
-                print('Se te acabo el tiempo')
-        else:
-            print('''1-Reanudar
-2-Salir del juego''')
-            pausa_op = ingresar_opcion('una opcion', (1, 2)) 
-            if pausa_op == 2: break
-            tiempo_inicio = time.time() - tiempo_transcurrido
-
-
-def comenzar(jugando, api): #
-
-    cuarto_actual = biblioteca
-    print(narrativa1.format(jugando.tiempo))
-    reto = ingresar_opcion('(S)i o (N)o', ('s','n'))
-    if reto == 's':
-        print(narrativa2.format(jugando.avatar))
-        en_juego(jugando, cuarto_actual)
+def seleccion_random(algo): #hace una seleccion random de una lista
+    return random.choice(algo)
 
 
 def lista_datos(): # Mete una lista vacia en el archivo de datos en caso de que este en blanco
@@ -103,8 +34,6 @@ def buscar_dict_usuario(username): #busca un usuario en el archivo json y retorn
     for dic in data:
         if dic['username'] == username:
             return dic
-
-
 
 def nueva_partida(username):
     jugador = buscar_dict_usuario(username)
@@ -134,7 +63,6 @@ def nueva_partida(username):
     jugando = Jugador(jugador['username'], jugador['contrasena'], jugador['edad'], jugador['avatar'], pistas, vidas, tiempo, dificultad)
 
     return jugando
-
 
 def ingresar_opcion(x, rango): #valida la seleccion de una opcion
     while True:
@@ -222,7 +150,7 @@ def ingresar_num_positivo(x): #valida numero positivo
 
 def ingresar_alpha(x): # Validar un input de letras
     y = input(f'Ingrese {x}: ')
-    while not x.isalpha():
+    while not y.isalpha():
         y = input('Error de ingreso, intente de nuevo: ')
     return y
 
