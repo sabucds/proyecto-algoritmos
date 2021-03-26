@@ -100,9 +100,15 @@ class Ahorcado(Juego):
                     print(f'Incorrecto, pierdes un cuarto de vida. Vidas actuales: {jugador.vidas}')
                     intentos += 1
             else:
-                if jugador.usar_pista():
-                    print(self.pistas[p])
-                    p += 1
+                try:
+                    self.pistas[p]
+                    if jugador.usar_pista():
+                        print(self.pistas[p])
+                        p += 1
+                except:
+                    print('Ya viste todas las pistas de este juego')
+
+
             print()
         print('Has perdido')
         return False

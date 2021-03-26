@@ -12,6 +12,12 @@ def llamar_juego(jugador, objeto_tocado, juegos_terminados):
         pistas = generar_lista(estructura)
         juego_en_curso = Ahorcado(
             objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+    
+    elif objeto_tocado.juego['name'] == 'Preguntas matemáticas':
+        estructura = seleccion_random(objeto_tocado.juego['questions'])
+        pistas = generar_lista(estructura)
+        juego_en_curso = PreguntasMate(
+            objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
 
     if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
         if juego_en_curso.juego(jugador):
@@ -40,36 +46,33 @@ def en_juego(jugador, cuarto_actual):
     tiempo_transcurrido = 0
     while tiempo_transcurrido < cronometro:
         tiempo_transcurrido = time.time() - tiempo_inicio
-        print(cuarto_actual.escenario)
-        try:
-            menu = f'''Menu de opciones
-{divisor}
-1- Ir a {cuarto_actual.derecha.nombre}
-2- Ir a {cuarto_actual.izquierda.nombre}
-3- Tocar {cuarto_actual.objetos[0]["name"]}
-4- Tocar {cuarto_actual.objetos[1]["name"]}
-5- Tocar {cuarto_actual.objetos[2]["name"]}
-6- Ver mi tiempo
+        print(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido))%60))
+
+        menu = '''Menu de opciones
+{}
+1- Ir a {}
+2- Ir a {}
+3- Tocar {}
+4- Tocar {}
+5- Tocar {}
+6- Ver mi inventario
 7- Pausa
-{divisor}'''
-        except:
-            menu = f'''Menu de opciones
-{divisor}
-2- Ir a {cuarto_actual.izquierda.nombre}
-3- Tocar {cuarto_actual.objetos[0]["name"]}
-6- Ver mi tiempo
-7- Pausa
-{divisor}'''
+{}'''
+
 
         if cuarto_actual.nombre == 'Plaza Rectorado' or cuarto_actual.nombre == 'Cuarto de Servidores ':
-            menu = menu.replace('1- Ir al cuarto de la derecha', '')
-            print(menu)
+            menu = menu.replace('1- Ir a {}', '')
+            print(menu.format(divisor, cuarto_actual.izquierda.nombre, cuarto_actual.objetos[0]["name"], cuarto_actual.objetos[1]["name"], cuarto_actual.objetos[2]["name"], divisor))
             opcion = ingresar_opcion('opcion', (2, 3, 4, 5, 6, 7))
+
         elif cuarto_actual.nombre == 'Pasillo Laboratorios ':
-            print(menu)
+            menu = menu.replace(
+                '1- Ir a {}', '').replace('4- Tocar {}', '').replace('5- Tocar {}', '')
+            print(menu.format(divisor, cuarto_actual.izquierda.nombre, cuarto_actual.objetos[0]["name"], divisor))
             opcion = ingresar_opcion('opcion', (2, 3, 6, 7))
+
         else:
-            print(menu)
+            print(menu.format(divisor, cuarto_actual.derecha.nombre, cuarto_actual.izquierda.nombre, cuarto_actual.objetos[0]["name"], cuarto_actual.objetos[1]["name"], cuarto_actual.objetos[2]["name"], divisor))
             opcion = ingresar_opcion('opcion', (1, 2, 3, 4, 5, 6, 7))
 
         if opcion == 1:
@@ -83,19 +86,16 @@ def en_juego(jugador, cuarto_actual):
         elif opcion == 5:
             tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[2], juegos_terminados)
         elif opcion == 6:
-            if cronometro > 0:
-                tiempo_transcurrido = time.time() - tiempo_inicio
-                print(
-                    f'Te quedan {cronometro - int(tiempo_transcurrido) } segundos')
-            else:
-                print('Se te acabo el tiempo')
+            print(jugador.inventario)
         else:
+            tiempo_transcurrido = time.time() - tiempo_inicio
             print('''1-Reanudar
 2-Salir del juego''')
             pausa_op = ingresar_opcion('una opcion', (1, 2))
             if pausa_op == 2:
                 break
             tiempo_inicio = time.time() - tiempo_transcurrido
+            
 
 
 def comenzar(jugador, api):
