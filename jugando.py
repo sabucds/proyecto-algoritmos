@@ -1,4 +1,6 @@
 from funciones_proyecto import *
+from preguntas_matematica import *
+from quizizz import *
 from ahorcado import *
 from jugador import *
 from escenarios import *
@@ -13,11 +15,17 @@ def llamar_juego(jugador, objeto_tocado, juegos_terminados):
         juego_en_curso = Ahorcado(
             objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
     
-    elif objeto_tocado.juego['name'] == 'Preguntas matemáticas':
+    elif objeto_tocado.juego['name'].replace('Ã¡', 'a') == 'Preguntas matematicas':
         estructura = seleccion_random(objeto_tocado.juego['questions'])
         pistas = generar_lista(estructura)
         juego_en_curso = PreguntasMate(
             objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
+    
+    elif objeto_tocado.juego['name'] == 'Quizizz Cultura Unimetana':
+        estructura = seleccion_random(objeto_tocado.juego['questions'])
+        pistas = generar_lista(estructura)
+        juego_en_curso = Quizizz(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], [v for k, v in estructura.items() if 'answer' in k], estructura['correct_answer'], pistas)
+        
 
     if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
         if juego_en_curso.juego(jugador):

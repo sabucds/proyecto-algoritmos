@@ -93,20 +93,14 @@ class Ahorcado(Juego):
                             formandose[i] = formandose[i].replace('_', letra)
                             if not '_' in formandose:
                                 print(f'completaste la palabra, ganaste: {self.recompensa}')
-                                jugador.guardar_objeto(self.recompensa)
+                                jugador.guardar_objeto(self.recompensa.lower())
                                 return True
                 else:
                     jugador.perder_vida(1/4)
                     print(f'Incorrecto, pierdes un cuarto de vida. Vidas actuales: {jugador.vidas}')
                     intentos += 1
             else:
-                try:
-                    self.pistas[p]
-                    if jugador.usar_pista():
-                        print(self.pistas[p])
-                        p += 1
-                except:
-                    print('Ya viste todas las pistas de este juego')
+                p = self.ver_pista_juego(jugador, p)
 
 
             print()

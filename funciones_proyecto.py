@@ -9,6 +9,7 @@ import os
 import time
 import random
 
+
 def generar_lista(dic): #genera una lista con las pistas de un diccionario
     lista = []
     for k,v in dic.items():
