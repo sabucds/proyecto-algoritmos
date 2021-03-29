@@ -1,13 +1,13 @@
 from juego import *
 from funciones_proyecto import *
 from jugador import *
+from narrativas import divisor
 
 class Ahorcado(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, enunciado, palabra, pistas):
-        super().__init__(nombre, recompensa, reglas, requerimento)
+        super().__init__(nombre, recompensa, reglas, requerimento, pistas)
         self.enunciado = enunciado #str
         self.palabra = palabra #str
-        self.pistas = pistas #lista
 
     
     def juego(self, jugador):
@@ -103,7 +103,7 @@ class Ahorcado(Juego):
                 p = self.ver_pista_juego(jugador, p)
 
 
-            print()
+            print(divisor)
         print('Has perdido')
         return False
 

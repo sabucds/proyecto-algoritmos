@@ -2,6 +2,7 @@ from funciones_proyecto import *
 from preguntas_matematica import *
 from quizizz import *
 from ahorcado import *
+from memoria import *
 from jugador import *
 from escenarios import *
 from cuarto import *
@@ -13,7 +14,7 @@ def llamar_juego(jugador, objeto_tocado, juegos_terminados):
         estructura = seleccion_random(objeto_tocado.juego['questions'])
         pistas = generar_lista(estructura)
         juego_en_curso = Ahorcado(
-            objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+            objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
     
     elif objeto_tocado.juego['name'].replace('Ã¡', 'a') == 'Preguntas matematicas':
         estructura = seleccion_random(objeto_tocado.juego['questions'])
@@ -25,7 +26,12 @@ def llamar_juego(jugador, objeto_tocado, juegos_terminados):
         estructura = seleccion_random(objeto_tocado.juego['questions'])
         pistas = generar_lista(estructura)
         juego_en_curso = Quizizz(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], [v for k, v in estructura.items() if 'answer' in k], estructura['correct_answer'], pistas)
-        
+    
+    elif objeto_tocado.juego['name'] == 'memoria con emojis':
+        estructura = seleccion_random(objeto_tocado.juego['questions'])
+        pistas = generar_lista(estructura)
+        juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], pistas)
+
 
     if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
         if juego_en_curso.juego(jugador):

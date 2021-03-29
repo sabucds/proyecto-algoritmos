@@ -6,19 +6,18 @@ from narrativas import divisor
 
 class Quizizz(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, pregunta, opciones, respuesta_correcta, pistas):
-        super().__init__(nombre, recompensa, reglas, requerimento)        
+        super().__init__(nombre, recompensa, reglas, requerimento, pistas)        
         self.pregunta = pregunta #str
         self.opciones = opciones #lista
         self.respuesta_correcta = respuesta_correcta #str
-        self.pistas = pistas #lista
-    
+
     
     def juego(self, jugador):
+        self.opciones = random.sample(self.opciones, len(self.opciones))
         p = 0
         print(self.pregunta)
         for i, opcion in enumerate(self.opciones):
             print(i+1, '-', opcion, end=' / ')
-            // TODO - Hacer que las opciones salgan con orden aleatorio
 
         print()
         while True:
