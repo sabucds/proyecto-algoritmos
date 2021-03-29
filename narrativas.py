@@ -8,6 +8,7 @@ narrativa2 = '''Bienvenido {}, gracias por tu disposición a ayudarnos a resolve
 te encuentras actualmente ubicado en la biblioteca, revisa el menú de opciones para ver qué acciones puedes realizar. 
 Recuerda que el tiempo corre más rápido que un trimestre en este reto.'''
 
-divisor = '+-------------------------------------------------------------------------------------------------+'
+divisor = '+--------------------------------------------------------------------------------------------------------------------------------------------------+'
+
 
 avatares = ['Scharifker', 'Eugenio Mendoza',  'Pelusa', 'Gandhi']

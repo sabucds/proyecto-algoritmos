@@ -1,4 +1,5 @@
 from jugando import *
+from jugador import *
 from funciones_proyecto import *
 from juego import *
 import sympy
@@ -11,29 +12,35 @@ class PreguntasMate(Juego):
         self.respuesta = respuesta
     
     def juego(self, jugador):
-        print(self.pregunta.replace('random(1,9)', '3').replace('random(1,3)x', '2*x').replace('tan2(2*x)', 'tan(4*x)'))
+        print(self.pregunta.replace("tan(x))", "(tan(x))").replace('sen(x))/2', '(sen(x))/2'))
         i = self.pregunta.find('=')
         funcion = self.pregunta[i+1:]
         x = sympy.symbols('x')
-        funcion = funcion.replace('random(1,9)', '3').replace('random(1,3)x', '2*x').replace('tan2(2*x)', 'tan(4*x)')
-        funcion = parse_expr(funcion)
-        derivada = str(funcion.diff(x))
-        print(derivada)
-        p = 0
+        funcion = funcion.replace("tan(x))", "(tan(x))").replace('sen(x))/2', '(sin(x))/2').replace('sen', 'sin')
+        funcion = sympy.parse_expr(funcion)
+        derivada = funcion.diff(x)
+        evalua = self.pregunta[self.pregunta.find('p'):self.pregunta.find(' ', self.pregunta.find('p'))].replace('pi', 'sympy.pi')
 
-        #FIXME: DERIVA MAL LA TANGENTE
+        if evalua == 'pi':
+            respuesta = derivada.subs(x, sympy.pi)
+        elif evalua == 'pi/2':
+            respuesta = derivada.subs(x, (sympy.pi)/2)
+        else: 
+            respuesta = derivada.subs(x, (sympy.pi)/3)
+        p = 0
 
         while True:
             r = input('Ingrese la respuesta o ingrese "*" para ver una pista ==> ')
             if r =='*':
                 p = self.ver_pista_juego(jugador, p)
-            elif r.replace(' ', '').lower() == derivada.replace(' ', ''): 
+            elif float(r.replace(' ', '')) == respuesta: 
                 print(f'Es correcto, ganaste: {self.recompensa}')
-                jugador.guardar_objeto(self.recompensa)
+                jugador.ganar_vida(1)
                 return True
             else:
+                jugador.perder_vida(1/4)
                 print(f'Incorrecto, a este paso no llegaras a mate II... Pierdes un cuarto de vida. \nVidas actuales: {jugador.vidas}')
-            
+
 
 
 
