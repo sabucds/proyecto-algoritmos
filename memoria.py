@@ -73,7 +73,7 @@ class Memoria(Juego):
 
     
     def juego(self, jugador):
-        print('COMO SE JUEGA: Se tiene un tablero 4x4 con cartas de memoria, las columnas tienen letras asignadas y las filas numeros. \nPara voltear una carta debes colocar la letra seguido del numero (como en Excel). \nEjemplo: escribir "A1" para voltear la primera carta')
+        print('COMO SE JUEGA: Se tiene un tablero 4x4 con cartas de memoria, las columnas tienen numeros asignados y las filas letras. \nPara voltear una carta debes colocar la letra seguido del numero. \nEjemplo: escribir "A1" para voltear la primera carta')
         self.tablero = [['😀', '🙄', '🤮', '🥰'], ['🤮', '😨', '🤓', '😷'], [
             '😨', '🤓', '🥰', '😷'], ['🤑', '🤑', '🙄', '😀']]
         tablero_juego = [['X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X'], [

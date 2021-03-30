@@ -3,50 +3,12 @@ from preguntas_matematica import *
 from quizizz import *
 from ahorcado import *
 from logica_booleana import *
+from criptograma import *
 from memoria import *
 from jugador import *
 from escenarios import *
 from cuarto import *
 from objeto import *
-
-
-def llamar_juego(jugador, objeto_tocado, juegos_terminados):
-    print(objeto_tocado.juego['name'])
-    if objeto_tocado.juego['name'] == 'ahorcado':
-        estructura = seleccion_random(objeto_tocado.juego['questions'])
-        pistas = generar_lista(estructura)
-        juego_en_curso = Ahorcado(
-            objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
-    
-    elif objeto_tocado.juego['name'].replace('Ã¡', 'a') == 'Preguntas matematicas':
-        estructura = seleccion_random(objeto_tocado.juego['questions'])
-        pistas = generar_lista(estructura)
-        juego_en_curso = PreguntasMate(
-            objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
-    
-    elif objeto_tocado.juego['name'] == 'Quizizz Cultura Unimetana':
-        estructura = seleccion_random(objeto_tocado.juego['questions'])
-        pistas = generar_lista(estructura)
-        juego_en_curso = Quizizz(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], [v for k, v in estructura.items() if 'answer' in k], estructura['correct_answer'], pistas)
-    
-    elif objeto_tocado.juego['name'] == 'memoria con emojis':
-        estructura = seleccion_random(objeto_tocado.juego['questions'])
-        pistas = generar_lista(estructura)
-        juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], pistas)
-    
-    elif objeto_tocado.juego['name'].replace('Ã³', 'o') == 'Logica Booleana':
-        estructura = seleccion_random(objeto_tocado.juego['questions'])
-        pistas = generar_lista(estructura)
-        juego_en_curso = LogicaBooleana(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas) 
-        #TODO ponerle el requerimento al terminar el juego
-
-
-
-    if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
-        if juego_en_curso.juego(jugador):
-            juegos_terminados.append(juego_en_curso.nombre)
-    else:
-        print(f'No puedes jugar este juego porque no tienes {juego_en_curso.requerimento} o ya lo completaste')
 
 
 def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda o derecha)
@@ -57,9 +19,48 @@ def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda 
     return cuarto_actual
 
 
+def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
+    estructura = seleccion_random(objeto_tocado.juego['questions'])
+    pistas = generar_lista(estructura)
+
+    if objeto_tocado.juego['name'] == 'ahorcado':
+        juego_en_curso = Ahorcado(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
+    
+    elif objeto_tocado.juego['name'].replace('Ã¡', 'a') == 'Preguntas matematicas':
+        juego_en_curso = PreguntasMate(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
+    
+    elif objeto_tocado.juego['name'] == 'Quizizz Cultura Unimetana':
+        juego_en_curso = Quizizz(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], [v for k, v in estructura.items() if 'answer' in k], estructura['correct_answer'], pistas)
+    
+    elif objeto_tocado.juego['name'] == 'memoria con emojis':
+        juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], pistas)
+    
+    elif objeto_tocado.juego['name'].replace('Ã³', 'o') == 'Logica Booleana':
+        juego_en_curso = LogicaBooleana(objeto_tocado.juego['name'], objeto_tocado.juego['award'],
+                                        objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
+        #TODO ponerle el requerimento al terminar el juego
+    
+    elif objeto_tocado.juego['name'] == 'Criptograma':
+        juego_en_curso = Criptograma(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['desplazamiento'], pistas)
+
+
+
+    if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
+        if juego_en_curso.juego(jugador):
+            juegos_terminados.append(juego_en_curso.nombre)
+    else:
+        print(f'No puedes jugar este juego porque no tienes {juego_en_curso.requerimento} o ya lo completaste')
+    
+    
+
 def tocar_objeto(jugador, cuarto_actual, objeto, juegos_terminados):  # tocar objeto para jugar
     objeto_tocado = Objeto(objeto['name'], objeto['position'], objeto['game'])
-    llamar_juego(jugador, objeto_tocado, juegos_terminados)
+    llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados)
+
+    if 'LÃ³gica Booleana' in juegos_terminados:
+        if objeto_tocado.juego['name'].replace('Ã³', 'o') == 'Logica Booleana':
+            cuarto_actual = mover_cuarto(cuarto_actual, 1)
+    return cuarto_actual
 
 
 def en_juego(jugador, cuarto_actual):
@@ -89,9 +90,14 @@ def en_juego(jugador, cuarto_actual):
             opcion = ingresar_opcion('opcion', (2, 3, 4, 5, 6, 7))
 
         elif cuarto_actual.nombre == 'Pasillo Laboratorios ':
-            menu = menu.replace(
-                '1- Ir a {}', '').replace('4- Tocar {}', '').replace('5- Tocar {}', '')
-            print(menu.format(divisor, cuarto_actual.izquierda.nombre, cuarto_actual.objetos[0]["name"], divisor))
+            if 'LÃ³gica Booleana' in juegos_terminados:
+                menu = menu.replace(
+                    '1- Ir a {}', '').replace('4- Tocar {}', '').replace('5- Tocar {}', '').replace('3- Tocar {}', '3- Ir a {}')
+                print(menu.format(divisor, cuarto_actual.izquierda.nombre, cuarto_actual.derecha.nombre, divisor))
+            else:
+                menu = menu.replace(
+                    '1- Ir a {}', '').replace('4- Tocar {}', '').replace('5- Tocar {}', '')
+                print(menu.format(divisor, cuarto_actual.izquierda.nombre, cuarto_actual.objetos[0]["name"], divisor))
             opcion = ingresar_opcion('opcion', (2, 3, 6, 7))
 
         else:
@@ -103,11 +109,11 @@ def en_juego(jugador, cuarto_actual):
         elif opcion == 2:
             cuarto_actual = mover_cuarto(cuarto_actual, opcion)
         elif opcion == 3:
-            tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[0], juegos_terminados)
+            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[0], juegos_terminados)
         elif opcion == 4:
-            tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[1], juegos_terminados)
+            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[1], juegos_terminados)
         elif opcion == 5:
-            tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[2], juegos_terminados)
+            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[2], juegos_terminados)
         elif opcion == 6:
             print(jugador.inventario)
         else:

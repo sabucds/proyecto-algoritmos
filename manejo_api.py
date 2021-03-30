@@ -32,5 +32,5 @@ for i, dic in enumerate(api):  # crea los objetos cuarto con los datos de la API
 biblioteca.definir_posiciones(pasillo_labs, plaza_rectorado)
 laboratorio_sl.definir_posiciones(cuarto_servidores, pasillo_labs)
 plaza_rectorado.definir_posiciones(False, biblioteca)
-pasillo_labs.definir_posiciones(False, biblioteca)
+pasillo_labs.definir_posiciones(laboratorio_sl, biblioteca)
 cuarto_servidores.definir_posiciones(False, laboratorio_sl)
