@@ -2,6 +2,7 @@ from funciones_proyecto import *
 from preguntas_matematica import *
 from quizizz import *
 from ahorcado import *
+from logica_booleana import *
 from memoria import *
 from jugador import *
 from escenarios import *
@@ -10,6 +11,7 @@ from objeto import *
 
 
 def llamar_juego(jugador, objeto_tocado, juegos_terminados):
+    print(objeto_tocado.juego['name'])
     if objeto_tocado.juego['name'] == 'ahorcado':
         estructura = seleccion_random(objeto_tocado.juego['questions'])
         pistas = generar_lista(estructura)
@@ -31,6 +33,13 @@ def llamar_juego(jugador, objeto_tocado, juegos_terminados):
         estructura = seleccion_random(objeto_tocado.juego['questions'])
         pistas = generar_lista(estructura)
         juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], pistas)
+    
+    elif objeto_tocado.juego['name'].replace('Ã³', 'o') == 'Logica Booleana':
+        estructura = seleccion_random(objeto_tocado.juego['questions'])
+        pistas = generar_lista(estructura)
+        juego_en_curso = LogicaBooleana(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas) 
+        #TODO ponerle el requerimento al terminar el juego
+
 
 
     if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
