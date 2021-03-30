@@ -85,7 +85,6 @@ class Memoria(Juego):
         self.imprimir_tablero(tablero_juego, numeros, letras)
         while True:
             gana = True
-            #self.imprimir_tablero(tablero_juego, numeros, letras)
             print()
             carta1 = self.ingresar_carta('Ingresa la carta a voltear ==> ', letras, numeros)
             carta_volteada1 = self.voltear_par(carta1, tablero_juego, numeros, letras)
