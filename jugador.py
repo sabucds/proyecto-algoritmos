@@ -1,4 +1,3 @@
-from jugando import game_over
 
 class Jugador():
     def __init__(self, username, contrasena, edad, avatar, pistas, vidas, tiempo, dificultad):
@@ -30,9 +29,8 @@ class Jugador():
     def perder_vida(self, cant_vida): #restar vida perdida a la vida total
         if not self.vidas <= 0:
             self.vidas -= cant_vida
-        else:
-            game_over(self)
-    
+        
+
     def ganar_vida(self, cant_vida):  # sumar vida perdida a la vida total
         if not self.vidas <= 0:
             self.vidas += cant_vida

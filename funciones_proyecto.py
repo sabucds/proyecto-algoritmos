@@ -3,11 +3,10 @@ from narrativas import *
 from escenarios import *
 from cuarto import *
 from objeto import *
-from manejo_api import *
 import json 
 import os
-import time
 import random
+
 
 def clear():
     return os.system('clear')
@@ -76,7 +75,7 @@ def ingresar_opcion(x, rango): #valida la seleccion de una opcion
     while True:
         try:
             if type(rango[0]) == int:
-                y = int(input(f'Ingrese {x}: '))
+                y = int(input(f'Ingrese {x} ==> '))
             else: 
                 y = input(f'Ingrese {x}: ').lower()
             if not y in rango:
@@ -101,7 +100,7 @@ def ingresar_index(x, rango):
     """
     while True:
         try:
-            y = int(input(f'Seleccione {x}: '))
+            y = int(input(f'Seleccione {x} ==> '))
             if not y-1 in rango:
                 raise Exception
             break
@@ -151,13 +150,13 @@ def validar_contrasena(): #valida que la contrasena tenga al menos 8 caracteres 
         print("La contraseña elegida no es válida")
 
 def ingresar_num_positivo(x): #valida numero positivo
-    y = input(f'Ingrese {x}: ')
+    y = input(f'Ingrese {x} ==> ')
     while not y.isnumeric():
         y = input('Error de ingreso, intente de nuevo: ')
     return y
 
 def ingresar_alpha(x): # Validar un input de letras
-    y = input(f'Ingrese {x}: ')
+    y = input(f'Ingrese {x} ==> ')
     while not y.isalpha():
         y = input('Error de ingreso, intente de nuevo: ')
     return y

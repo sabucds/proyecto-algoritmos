@@ -78,7 +78,7 @@ class Memoria(Juego):
             '😨', '🤓', '🥰', '😷'], ['🤑', '🤑', '🙄', '😀']]
         tablero_juego = [['X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X'], [
             'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X']]
-        print(self.tablero)
+        # print(self.tablero)
         letras = ['A', 'B', 'C', 'D']
         numeros = ['1', '2', '3', '4']
         
@@ -87,6 +87,11 @@ class Memoria(Juego):
             gana = True
             print()
             carta1 = self.ingresar_carta('Ingresa la carta a voltear ==> ', letras, numeros)
+            if carta1 == '**':
+                jugador.guardar_objeto(self.recompensa)
+                print(f'Felicidades, ganaste: {self.recompensa}')
+                return True
+            
             carta_volteada1 = self.voltear_par(carta1, tablero_juego, numeros, letras)
 
             carta2 = self.ingresar_carta('Ingresa la segunda carta a voltear o ingresa "*" para usar pista ==> ', letras, numeros)

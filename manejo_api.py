@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
 import requests
 import json
 from cuarto import *
@@ -13,8 +14,6 @@ def get_data_api():
     except:
         print('No se pudo extraer los datos de la API')
         return []
-
-
 
 api = get_data_api()
 

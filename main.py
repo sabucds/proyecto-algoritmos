@@ -1,6 +1,6 @@
 from funciones_proyecto import *
-from jugando import *
 from manejo_api import *
+from jugando import *
 import json
 from narrativas import *
 
@@ -36,7 +36,9 @@ def main():
             if opcion == 's': continue
 
         else:
+            clear()
             break
+
         print(divisor)
         print('''1-Comenzar nueva partida
 2-Ver instrucciones del juego
