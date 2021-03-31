@@ -9,6 +9,8 @@ import os
 import time
 import random
 
+def clear():
+    return os.system('clear')
 
 def generar_lista(dic): #genera una lista con las pistas de un diccionario
     lista = []
@@ -42,9 +44,14 @@ def nueva_partida(username):
     with open('dificultad.json') as dificultad:
         dic_nivel = json.load(dificultad)
         for k, v in dic_nivel.items():
-            print(i,"-",k,v)
+            print(f'{i}- {k.title()} ==> ', end='')
+            for ke,va in v.items():
+                print(f'{ke.title()}: {va}', end=' | ')
+            print()
             i += 1
+    print()
     dificultad = ingresar_opcion('una dificultad', ('1', '2', '3'))
+    print(divisor)
     if dificultad == '1':
         dificultad = 'facil'
         pistas = dic_nivel['facil']['pistas']

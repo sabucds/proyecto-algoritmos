@@ -1,3 +1,4 @@
+
 import requests
 import json
 from cuarto import *
@@ -34,3 +35,4 @@ laboratorio_sl.definir_posiciones(cuarto_servidores, pasillo_labs)
 plaza_rectorado.definir_posiciones(False, biblioteca)
 pasillo_labs.definir_posiciones(laboratorio_sl, biblioteca)
 cuarto_servidores.definir_posiciones(False, laboratorio_sl)
+

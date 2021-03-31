@@ -12,14 +12,14 @@ class PreguntasMate(Juego):
         self.respuesta = respuesta
     
     def juego(self, jugador):
-        print(self.pregunta.replace("tan(x))", "(tan(x))").replace('sen(x))/2', '(sen(x))/2'))
+        print(self.pregunta)
         i = self.pregunta.find('=')
         funcion = self.pregunta[i+1:]
         x = sympy.symbols('x')
-        funcion = funcion.replace("tan(x))", "(tan(x))").replace('sen(x))/2', '(sin(x))/2').replace('sen', 'sin')
+        funcion = funcion.replace('sen', 'sin')
         funcion = sympy.parse_expr(funcion)
         derivada = funcion.diff(x)
-        evalua = self.pregunta[self.pregunta.find('p'):self.pregunta.find(' ', self.pregunta.find('p'))].replace('pi', 'sympy.pi')
+        evalua = self.pregunta[self.pregunta.find('p') : self.pregunta.find(' ', self.pregunta.find('p'))]
 
         if evalua == 'pi':
             respuesta = derivada.subs(x, sympy.pi)
@@ -29,17 +29,21 @@ class PreguntasMate(Juego):
             respuesta = derivada.subs(x, (sympy.pi)/3)
         p = 0
 
-        while True:
-            r = input('Ingrese la respuesta o ingrese "*" para ver una pista ==> ')
-            if r =='*':
-                p = self.ver_pista_juego(jugador, p)
-            elif float(r.replace(' ', '')) == respuesta: 
-                print(f'Es correcto, ganaste: {self.recompensa}')
-                jugador.ganar_vida(1)
-                return True
-            else:
-                jugador.perder_vida(1/4)
-                print(f'Incorrecto, a este paso no llegaras a mate II... Pierdes un cuarto de vida. \nVidas actuales: {jugador.vidas}')
+        # while True:
+        r = input('Ingrese la respuesta o ingrese "*" para ver una pista ==> ')
+        if r =='*':
+            p = self.ver_pista_juego(jugador, p)
+        elif r == str(respuesta):
+            print(f'Es correcto, ganaste: {self.recompensa}')
+            jugador.ganar_vida(1)
+            return True
+        elif (r == str(float(respuesta))):
+            print(f'Es correcto, ganaste: {self.recompensa}')
+            jugador.ganar_vida(1)
+            return True
+        else:
+            jugador.perder_vida(1/4)
+            print(f'Incorrecto, a este paso no llegaras a mate II... Pierdes un cuarto de vida. \nVidas actuales: {jugador.vidas}')
 
 
 
