@@ -1,6 +1,7 @@
 from juego import *
 import random
 import string
+from termcolor import colored
 
 class Sopa(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, palabras, pistas):
@@ -16,7 +17,7 @@ class Sopa(Juego):
         return sopa
 
 
-    def diagonal(self, palabra, sopa):
+    def diagonal(self, palabra, sopa, ubicaciones):
         while True:
             espacio_valido = True
             pendiente = random.choice([-1,1])
@@ -32,21 +33,23 @@ class Sopa(Juego):
                 if espacio_valido:
                     for i, letra in enumerate(list(palabra)):
                         sopa[i+fila][i+columna] = letra
+                        ubicaciones.append((i+fila, i+columna))
                     return sopa
             else:
                 fila = random.randint(len(palabra), 14)
-                columna = random.randint(len(palabra), 14)
+                columna = random.randint(0, 14-len(palabra))
 
                 for i, letra in enumerate(list(palabra)):
-                    if not sopa[fila-i][columna-i] == 0:
+                    if not sopa[fila-i][i+columna] == 0:
                         espacio_valido = False
 
                 if espacio_valido:
                     for i, letra in enumerate(list(palabra)):
-                        sopa[fila-i][columna-i] = letra
+                        sopa[fila-i][i+columna] = letra
+                        ubicaciones.append((fila-i, i+columna))
                     return sopa
     
-    def vertical(self, palabra, sopa):
+    def vertical(self, palabra, sopa, ubicaciones):
         while True:
             espacio_valido = True
             fila = random.randint(0, 14-len(palabra))
@@ -58,9 +61,10 @@ class Sopa(Juego):
             if espacio_valido:
                 for i, letra in enumerate(list(palabra)):
                     sopa[i+fila][columna] = letra
+                    ubicaciones.append((i+fila, columna))
                 return sopa
 
-    def horizontal(self, palabra, sopa):
+    def horizontal(self, palabra, sopa, ubicaciones):
         while True:
             espacio_valido = True
             fila = random.randint(0, 14)
@@ -72,14 +76,49 @@ class Sopa(Juego):
             if espacio_valido:
                 for i, letra in enumerate(list(palabra)):
                     sopa[fila][i+columna] = letra
+                    ubicaciones.append((fila, i+columna))
                 return sopa
 
 
+    def imprimir_sopa(self, sopa, palabras_encontradas_ubicacion=False):
+        divisor = '+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+'
+
+        if not palabras_encontradas_ubicacion:
+            for linea in sopa:
+                print('\n', divisor)
+                print(' | ', end='')
+                for letra in linea:
+                    print(letra.upper(), end=' | ')
+            print("\n", divisor)
+
+        else:
+            
+            for i,linea in enumerate(sopa):
+                print('\n', divisor)
+                print(' | ', end='')
+                for ii,letra in enumerate(linea):
+                    letra_ubicada = False
+                    for ubicaciones in palabras_encontradas_ubicacion:
+                        if (i,ii) in ubicaciones:
+                            letra_ubicada = True
+                    if letra_ubicada:
+                        print(colored(letra, 'cyan'), end=' | ')
+                    else:
+                        print(letra.upper(), end=' | ')
+            print("\n", divisor)
+
+            
+
+
+
     def juego(self, jugador):
+
         palabras_lista = [x for x in self.palabras]
-        # alfabeto = list(string.ascii_uppercase)
         alfabeto = list(string.ascii_lowercase)
-        # TODO CAMBIAR DE LOWER A UPPER
+        p = 0
+        palabras_encontradas = []
+        ubicaciones = {}
+
         sopa = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -97,7 +136,6 @@ class Sopa(Juego):
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]
-        divisor = ' +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+'
 
         for i in range(len(palabras_lista)):
             palabra = random.choice(palabras_lista)
@@ -105,36 +143,38 @@ class Sopa(Juego):
             posicion = random.randint(1,3)
             palabra_inversa = random.choice([True, False])
 
+            ubicaciones[palabra] = []
+            palabra_u = palabra
+
             if palabra_inversa:
                 palabra = palabra[::-1]
 
             if posicion == 1:
-                sopa = self.horizontal(palabra, sopa)
+                sopa = self.horizontal(palabra, sopa, ubicaciones[palabra_u])
             elif posicion == 2:
-                sopa = self.vertical(palabra, sopa)
+                sopa = self.vertical(palabra, sopa, ubicaciones[palabra_u])
             else:
-                sopa = self.diagonal(palabra, sopa)
+                sopa = self.diagonal(palabra, sopa, ubicaciones[palabra_u])
         
         sopa = self.rellenar_espacios(sopa, alfabeto)
 
-        for linea in sopa:
-            print(divisor)
-            print(' | ', end='')
-            print(" | ".join(linea), end=' | \n')
-        print(divisor)
-        
-        p = 0
+        self.imprimir_sopa(sopa)
+
         while True:
             respuesta = input('Ingrese una palabra o "*" para usar una pista ==> ').upper()
 
             if respuesta in self.palabras:
+                palabras_encontradas.append(ubicaciones[respuesta])
+                self.imprimir_sopa(sopa, palabras_encontradas)
                 self.palabras.remove(respuesta)
+
                 if len(self.palabras) == 0:
                     print(f'Acertaste todas las palabras, ganaste: {self.recompensa}')
                     jugador.ganar_vida(1)
                     return True
                 else:
                     print(f'Es correcto, te faltan {len(self.palabras)}')
+
             elif respuesta == '*':
                 p = self.ver_pista_juego(jugador, p)
 
