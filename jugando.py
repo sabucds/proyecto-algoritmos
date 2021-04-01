@@ -3,6 +3,7 @@
 from funciones_proyecto import *
 from manejo_api import *
 from preguntas_matematica import *
+from sopa import *
 from palabra_mezclada import *
 from preguntas_python import *
 from escoge_numero import *
@@ -69,6 +70,9 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
     
     elif objeto_tocado.juego['name'] == 'escoge un número entre':
         juego_en_curso = EscogeNumero(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+    
+    elif objeto_tocado.juego['name'] == 'sopa_letras':
+        juego_en_curso = Sopa(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, [v.upper() for k, v in estructura.items() if 'answer' in k], pistas)
 
     try:
         print(objeto_tocado.juego['message_requirement'])
