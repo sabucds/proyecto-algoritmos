@@ -27,7 +27,7 @@ class Quizizz(Juego):
 
             if r in range(0, 4) and self.opciones[r] == self.respuesta_correcta:
                 print(f'Acertaste, ganaste: {self.recompensa}')
-                jugador.guardar_objeto(self.recompensa.lower())
+                jugador.guardar_objeto(self.recompensa)
                 return True
 
             elif r == 4:

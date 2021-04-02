@@ -7,6 +7,7 @@ from sopa import *
 from palabra_mezclada import *
 from preguntas_python import *
 from escoge_numero import *
+from final_boss import *
 from quizizz import *
 from adivinanzas import *
 from ahorcado import *
@@ -19,6 +20,7 @@ from escenarios import *
 from cuarto import *
 from objeto import *
 import time
+from termcolor import colored
 
 
 def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda o derecha)
@@ -30,7 +32,6 @@ def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda 
 
 
 def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
-    print(objeto_tocado.juego['name'])
     estructura = seleccion_random(objeto_tocado.juego['questions'])
     try:
         pistas = generar_lista(estructura)
@@ -47,42 +48,52 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
         juego_en_curso = Quizizz(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], [v for k, v in estructura.items() if 'answer' in k], estructura['correct_answer'], pistas)
     
     elif objeto_tocado.juego['name'] == 'memoria con emojis':
-        juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], pistas)
+        juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], pistas)
     
     elif objeto_tocado.juego['name'] == 'Lógica Booleana':
         juego_en_curso = LogicaBooleana(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
-        #TODO ponerles el requerimento al terminar el juego
     
     elif objeto_tocado.juego['name'] == 'Criptograma':
-        juego_en_curso = Criptograma(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['desplazamiento'], pistas)
+        juego_en_curso = Criptograma(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['desplazamiento'], pistas)
     
     elif objeto_tocado.juego['name'] == 'Encuentra la lógica y resuelve':
-        juego_en_curso = EncuentraLogica(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura, pistas)
+        juego_en_curso = EncuentraLogica(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura, pistas)
     
     elif objeto_tocado.juego['name'] == 'Preguntas sobre python':
-        juego_en_curso = PreguntasPython(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+        juego_en_curso = PreguntasPython(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
     
     elif objeto_tocado.juego['name'] == 'Adivinanzas':
-        juego_en_curso = Adivinanzas(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+        juego_en_curso = Adivinanzas(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answers'], pistas)
     
     elif objeto_tocado.juego['name'] == 'Palabra mezclada':
-        juego_en_curso = PalabraMezclada(objeto_tocado.juego['name'], objeto_tocado.juego['award'],objeto_tocado.juego['rules'], False, estructura['question'], estructura['category'], estructura['words'], pistas)
+        juego_en_curso = PalabraMezclada(objeto_tocado.juego['name'], objeto_tocado.juego['award'],objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['category'], estructura['words'], pistas)
     
     elif objeto_tocado.juego['name'] == 'escoge un número entre':
-        juego_en_curso = EscogeNumero(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+        juego_en_curso = EscogeNumero(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
     
     elif objeto_tocado.juego['name'] == 'sopa_letras':
         juego_en_curso = Sopa(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, [v.upper() for k, v in estructura.items() if 'answer' in k], pistas)
+    
+    else:
+        juego_en_curso = FinalBoss(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, pistas)
 
     try:
-        print(objeto_tocado.juego['message_requirement'])
+        print(colored(objeto_tocado.juego['message_requirement'], 'magenta', attrs=['bold']))
     except:
         pass 
 
     if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
-        print('Regla:' , juego_en_curso.reglas)
+        if juego_en_curso.requerimento:
+            print(colored(
+                f'Tienes {juego_en_curso.requerimento} en tu inventario. Deseas usarlo?', 'magenta', attrs=['bold']))
+            r = ingresar_opcion('(S)i o (N)o', ('s','n'))
+            if r == 's':
+                jugador.usar_objeto(juego_en_curso.requerimento)
+            
+        print(colored('Regla: ' + juego_en_curso.reglas, 'magenta', attrs=['bold']))
         if juego_en_curso.juego(jugador):
             juegos_terminados.append(juego_en_curso.nombre)
+    print(divisor)
 
     time.sleep(2)
     
@@ -105,7 +116,7 @@ def en_juego(jugador, cuarto_actual):
     tiempo_transcurrido = 0
     while tiempo_transcurrido < cronometro and jugador.vidas>0:
         tiempo_transcurrido = time.time() - tiempo_inicio
-        print(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido))%60))
+        print(colored(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido)) % 60), 'cyan', attrs=['bold']))
 
         menu = '''Menu de opciones
 1- Ir a {}
@@ -169,11 +180,11 @@ def en_juego(jugador, cuarto_actual):
 def comenzar(jugador, api):
     cuarto_actual = biblioteca
     clear()
-    print(narrativa1.format(jugador.tiempo))
+    print(colored(narrativa1.format(jugador.tiempo), 'magenta', attrs=['bold']))
     print()
     reto = ingresar_opcion('(S)i o (N)o', ('s', 'n'))
     print(divisor)
     if reto == 's':
-        print(narrativa2.format(jugador.avatar))
+        print(colored(narrativa2.format(jugador.avatar), 'magenta', attrs=['bold']))
         time.sleep(4)
         en_juego(jugador, cuarto_actual)

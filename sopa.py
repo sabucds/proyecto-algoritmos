@@ -92,7 +92,7 @@ class Sopa(Juego):
             print("\n", divisor)
 
         else:
-            
+            color = 'red'
             for i,linea in enumerate(sopa):
                 print('\n', divisor)
                 print(' | ', end='')
@@ -102,7 +102,7 @@ class Sopa(Juego):
                         if (i,ii) in ubicaciones:
                             letra_ubicada = True
                     if letra_ubicada:
-                        print(colored(letra, 'cyan'), end=' | ')
+                        print(colored(letra, color), end=' | ')
                     else:
                         print(letra.upper(), end=' | ')
             print("\n", divisor)

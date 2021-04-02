@@ -1,3 +1,4 @@
+from termcolor import colored
 
 class Jugador():
     def __init__(self, username, contrasena, edad, avatar, pistas, vidas, tiempo, dificultad):
@@ -17,7 +18,7 @@ class Jugador():
             self.pistas -= 1
             return True
         else:
-            print('No tienes mas pistas')
+            print(colored('No tienes mas pistas', 'magenta', attrs=['bold']))
             return False
 
     def guardar_objeto(self, objeto):  # guardar objeto en inventario
