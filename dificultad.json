@@ -4,12 +4,12 @@
             "pistas": 5
         },
 "intermedio":{
-            "tiempo": 30,
+            "tiempo": 15,
             "vidas": 3,
             "pistas": 3
         },
 "dificil":{
-            "tiempo": 30,
+            "tiempo": 7,
             "vidas": 1,
             "pistas": 2
         }
