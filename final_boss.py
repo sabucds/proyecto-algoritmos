@@ -92,47 +92,6 @@ class FinalBoss(Juego):
         if not condicion:
             return mov_posibles
         
-    
-    def buscar_jugada(self, tablero, letra):
-
-        for i, fila in enumerate(tablero):
-            for ii, espacio in enumerate(fila):
-                try:
-                    if tablero[i][ii] == letra and tablero[i+1][ii] == ' ':
-                        mov = self.elegir_random(tablero, [(i+1, ii), (i, ii+1), (i+1, ii+1)])
-                        return mov
-                except: pass
-                try:
-                    if tablero[i][ii] == letra and tablero[i][ii+1] == ' ':
-                        mov = self.elegir_random(tablero, [(i+1, ii), (i, ii+1), (i+1, ii+1)])
-                        return mov
-                except: pass
-
-                try:
-                    if tablero[i][ii] == letra and tablero[i+1][ii+1] == ' ':
-                        mov = self.elegir_random(tablero, [(i+1, ii), (i, ii+1), (i+1, ii+1)])
-                        return mov
-                except: pass
-
-                try:
-                    if tablero[i][ii] == letra and tablero[i-1][ii] == ' ':
-                        mov = self.elegir_random(tablero, [(i-1, ii), (i, ii-1), (i-1, ii-1)])
-                        return mov
-                except:
-                    pass
-
-                try:
-                    if tablero[i][ii] == letra and tablero[i][ii-1] == ' ':
-                        mov = self.elegir_random(tablero, [(i-1, ii), (i, ii-1), (i-1, ii-1)])
-                        return mov
-                except: pass
-
-                try:
-                    if tablero[i][ii] == letra and tablero[i-1][ii-1] == ' ':
-                        mov = self.elegir_random(tablero, [(i-1, ii), (i, ii-1), (i-1, ii-1)])
-                        return mov
-                except: pass
-
 
     def jugar_o_tapar(self, tablero, letra):
         mov = False
@@ -213,6 +172,7 @@ class FinalBoss(Juego):
         return mov
     
     def ia_mov(self, tablero):
+        mov = False
         mov_posibles = self.elegir_random(tablero)
         print(mov_posibles)
 
@@ -236,7 +196,7 @@ class FinalBoss(Juego):
 
         if not mov:
             print('hola')
-            mov = self.buscar_jugada(tablero, 'O')
+            mov = random.choice(mov_posibles)
 
         self.poner_pieza('O', tablero, mov)
 

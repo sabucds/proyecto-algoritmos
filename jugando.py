@@ -51,7 +51,7 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
         juego_en_curso = Memoria(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], pistas)
     
     elif objeto_tocado.juego['name'] == 'Lógica Booleana':
-        juego_en_curso = LogicaBooleana(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, estructura['question'], estructura['answer'], pistas)
+        juego_en_curso = LogicaBooleana(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
     
     elif objeto_tocado.juego['name'] == 'Criptograma':
         juego_en_curso = Criptograma(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['desplazamiento'], pistas)
@@ -72,10 +72,10 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
         juego_en_curso = EscogeNumero(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], estructura['question'], estructura['answer'], pistas)
     
     elif objeto_tocado.juego['name'] == 'sopa_letras':
-        juego_en_curso = Sopa(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, [v.upper() for k, v in estructura.items() if 'answer' in k], pistas)
+        juego_en_curso = Sopa(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], [v.upper() for k, v in estructura.items() if 'answer' in k], pistas)
     
     else:
-        juego_en_curso = FinalBoss(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], False, pistas)
+        juego_en_curso = FinalBoss(objeto_tocado.juego['name'], objeto_tocado.juego['award'], objeto_tocado.juego['rules'], objeto_tocado.juego['requirement'], pistas)
 
     try:
         print(colored(objeto_tocado.juego['message_requirement'], 'magenta', attrs=['bold']))
