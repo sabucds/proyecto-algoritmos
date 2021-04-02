@@ -20,23 +20,37 @@ class FinalBoss(Juego):
 
     
     def poner_pieza(self, letra, tablero, mov):
+        print(mov)
         if mov in range(1, 4):
+            if not tablero[0][mov-1] == ' ': 
+                return False
             tablero[0][mov-1] = letra
+
         elif mov in range(4,7):
+            if not tablero[1][mov-4] == ' ':
+                return False
             tablero[1][mov-4] = letra
+
         else:
+            if not tablero[2][mov-7] == ' ':
+                return False
             tablero[2][mov-7] = letra
         self.imprimir_tablero(tablero)
+        return True
 
 
     def ganador(self, tablero):
+        empate = True
         for i, fila in enumerate(tablero):
-            if (tablero[i][0] == tablero[i][1]) and (tablero[i][1] == tablero[i][2]) and tablero[i][0] in ('X', 'O'):
-                if tablero[i][0] == 'X':
-                    return 'X'
-                else:
-                    return 'O'
             for ii, espacio in enumerate(fila):
+                if espacio == ' ':
+                    empate = False
+                
+                if (tablero[i][0] == tablero[i][1]) and (tablero[i][1] == tablero[i][2]) and tablero[i][0] in ('X', 'O'):
+                    if tablero[i][0] == 'X':
+                        return 'X'
+                    else:
+                        return 'O'
                 if (tablero[0][ii] == tablero[1][ii]) and (tablero[1][ii] == tablero[2][ii]) and tablero[0][ii] in ('X', 'O'):
                     if tablero[0][ii] == 'X':
                         return 'X'
@@ -47,6 +61,8 @@ class FinalBoss(Juego):
                         return 'X'
                     else:
                         return 'O'
+        if empate:
+            return 'empate'
         return False
 
     def elegir_random(self, tablero, condicion=False):
@@ -78,63 +94,120 @@ class FinalBoss(Juego):
         
     
     def buscar_jugada(self, tablero, letra):
-        mov = False
+
         for i, fila in enumerate(tablero):
             for ii, espacio in enumerate(fila):
                 try:
-                    if tablero[i][ii] == letra and (tablero[i+1][ii] == ' ' or tablero[i][ii+1] == ' ' or tablero[i+1][ii+1] == ' '):
+                    if tablero[i][ii] == letra and tablero[i+1][ii] == ' ':
                         mov = self.elegir_random(tablero, [(i+1, ii), (i, ii+1), (i+1, ii+1)])
                         return mov
+                except: pass
+                try:
+                    if tablero[i][ii] == letra and tablero[i][ii+1] == ' ':
+                        mov = self.elegir_random(tablero, [(i+1, ii), (i, ii+1), (i+1, ii+1)])
+                        return mov
+                except: pass
 
-                    elif tablero[i][ii] == letra and (tablero[i-1][ii] == ' ' or tablero[i][ii-1] == ' ' or tablero[i-1][ii-1] == ' '):
+                try:
+                    if tablero[i][ii] == letra and tablero[i+1][ii+1] == ' ':
+                        mov = self.elegir_random(tablero, [(i+1, ii), (i, ii+1), (i+1, ii+1)])
+                        return mov
+                except: pass
+
+                try:
+                    if tablero[i][ii] == letra and tablero[i-1][ii] == ' ':
                         mov = self.elegir_random(tablero, [(i-1, ii), (i, ii-1), (i-1, ii-1)])
                         return mov
-
                 except:
                     pass
-        return mov
+
+                try:
+                    if tablero[i][ii] == letra and tablero[i][ii-1] == ' ':
+                        mov = self.elegir_random(tablero, [(i-1, ii), (i, ii-1), (i-1, ii-1)])
+                        return mov
+                except: pass
+
+                try:
+                    if tablero[i][ii] == letra and tablero[i-1][ii-1] == ' ':
+                        mov = self.elegir_random(tablero, [(i-1, ii), (i, ii-1), (i-1, ii-1)])
+                        return mov
+                except: pass
+
 
     def jugar_o_tapar(self, tablero, letra):
         mov = False
         for i, fila in enumerate(tablero):
             for ii, espacio in enumerate(fila):
                 try:
-                    if tablero[i][ii] == tablero[i+1][ii+1] and tablero[i][ii] == letra:
+                    if tablero[i][ii] == tablero[i+1][ii+1] and tablero[i][ii] == letra and tablero[i+2][ii+2] == ' ':
                         print('a')
                         return self.elegir_random(tablero, [(0, 0), (1, 1), (2, 2)])
-                    
-                    elif tablero[i][ii] == tablero[i+1][ii-1] and tablero[i][ii] == letra:
+                except: pass
+
+                try:
+                    if tablero[i][ii] == tablero[i+1][ii+1] and tablero[i][ii] == letra and tablero[i-1][ii-1] == ' ':
+                        return self.elegir_random(tablero, [(0, 0), (1, 1), (2, 2)])
+                except: pass
+
+                try:
+                    if tablero[i][ii] == tablero[i+1][ii-1] and tablero[i][ii] == letra and tablero[i+2][ii-2] == ' ':
                         print('b')
                         return self.elegir_random(tablero, [(0, 2), (1, 1), (2, 0)])
+                except: pass
 
-                    elif tablero[i][ii] == tablero[i+1][ii] and tablero[i][ii] == letra:
+                try:
+                    if tablero[i][ii] == tablero[i+1][ii-1] and tablero[i][ii] == letra and tablero[i-1][ii+1] == ' ':
+                        return self.elegir_random(tablero, [(0, 2), (1, 1), (2, 0)])
+                except: pass
+
+                try:
+                    if tablero[i][ii] == tablero[i+1][ii] and tablero[i][ii] == letra and tablero[i+2][ii] == ' ':
                         print('c')
-                        try:
-                            if tablero[i-1][ii] == ' ':
-                                posicion = (i-1, ii)
-                        except:
-                            if tablero[i+2][ii] == ' ':
-                                posicion = (i+2, ii)
+                        posicion = (i+2, ii)
                         return self.elegir_random(tablero, [posicion])
+                except: pass
 
-                    elif tablero[i][ii] == tablero[i][ii+1] and tablero[i][ii] == letra:
+                try:
+                    if tablero[i][ii] == tablero[i+1][ii] and tablero[i][ii] == letra and tablero[i-1][ii] == ' ':
+                        posicion = (i-1, ii)
+                        return self.elegir_random(tablero, [posicion])
+                except: pass
+
+                try:
+                    if tablero[i][ii] == tablero[i][ii+1] and tablero[i][ii] == letra and tablero[i][ii+2] == ' ':
                         print('d')
-                        try:
-                            if tablero[i][ii+2] == ' ':
-                                posicion = (i, ii+2)
-                        except:
-                            if tablero[i][ii-1] == ' ':
-                                posicion = (i, ii-1)
+                        posicion = (i, ii+2)
                         return self.elegir_random(tablero, [posicion])
+                except: pass
 
-                    if tablero[i][ii] == tablero[i+2][ii] and tablero[i+1][ii] == ' ':
+                try:
+                    if tablero[i][ii] == tablero[i][ii+1] and tablero[i][ii] == letra and tablero[i][ii-1] == ' ':
+                        posicion = (i, ii-1)
+                        return self.elegir_random(tablero, [posicion])
+                except: pass
+
+                try:
+                    if tablero[i][ii] == tablero[i+2][ii] and tablero[i+1][ii] == ' ' and tablero[i][ii] == letra:
                         posicion = (i+1, ii)
                         return self.elegir_random(tablero, [posicion])
+                except: pass
 
-                    if tablero[i][ii] == tablero[i][ii+2] and tablero[i][ii+1] == ' ':
+                try:
+                    if tablero[i][ii] == tablero[i][ii+2] and tablero[i][ii+1] == ' ' and tablero[i][ii] == letra:
                         posicion = (i, ii+1)
                         return self.elegir_random(tablero, [posicion])
+                except: pass
+                
+                try:
+                    if tablero[i][ii] == tablero[i+2][ii+2] and tablero[i][ii] == letra and tablero[i+1][ii+1] == ' ':
+                        posicion = (i+1, ii+1)
+                        return self.elegir_random(tablero, [posicion])
+                except: pass
 
+                try:
+                    if tablero[i][ii] == tablero[i+2][ii-2] and tablero[i][ii] == letra and tablero[i+1][ii+1] == ' ':
+                        posicion = (i+1, ii-1)
+                        return self.elegir_random(tablero, [posicion])
                 except:
                     pass
         return mov
@@ -157,9 +230,12 @@ class FinalBoss(Juego):
                 mov = self.jugar_o_tapar(tablero, 'O')
 
             else:
-                mov = self.jugar_o_tapar(tablero, 'X')
+                j = random.randint(1,2)
+                if j == 1:
+                    mov = self.jugar_o_tapar(tablero, 'X')
 
         if not mov:
+            print('hola')
             mov = self.buscar_jugada(tablero, 'O')
 
         self.poner_pieza('O', tablero, mov)
@@ -167,7 +243,8 @@ class FinalBoss(Juego):
 
     def jugador_mov(self, tablero):
         mov = ingresar_opcion('la posicion del tablero que deseas ocupar, un numero del 1 al 9', range(1,10))
-        self.poner_pieza('X', tablero, mov)
+        while not self.poner_pieza('X', tablero, mov):
+            mov = ingresar_opcion('una posicion que no este ocupada', range(1,10))
 
     
     def juego(self, jugador):
@@ -179,12 +256,18 @@ class FinalBoss(Juego):
         self.imprimir_tablero(tablero)
         while True:
             self.jugador_mov(tablero)
-            print('Le toca a cobranzas')
-            self.ia_mov(tablero)
             ganador = self.ganador(tablero)
             if ganador == 'X':
                 print(f'Ganaste! lograste recuperar el disco duro')
                 return True
+            if ganador == 'empate':
+                print('Hubo un empate')
+                return False
+
+            print('Le toca a cobranzas')
+            self.ia_mov(tablero)
+            ganador = self.ganador(tablero)
+
             if ganador == 'O':
                 jugador.perder_vida(1)
                 print(f'Gano cobranzas, pierdes una vida. Vidas actuales: {jugador.vidas}')
