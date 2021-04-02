@@ -29,21 +29,21 @@ class PreguntasMate(Juego):
             respuesta = derivada.subs(x, (sympy.pi)/3)
         p = 0
 
-        # while True:
-        r = input('Ingrese la respuesta o ingrese "*" para ver una pista ==> ')
-        if r =='*':
-            p = self.ver_pista_juego(jugador, p)
-        elif r == str(respuesta):
-            print(f'Es correcto, ganaste: {self.recompensa}')
-            jugador.ganar_vida(1)
-            return True
-        elif (r == str(float(respuesta))):
-            print(f'Es correcto, ganaste: {self.recompensa}')
-            jugador.ganar_vida(1)
-            return True
-        else:
-            jugador.perder_vida(1/4)
-            print(f'Incorrecto, a este paso no llegaras a mate II... Pierdes un cuarto de vida. \nVidas actuales: {jugador.vidas}')
+        while True:
+            r = input('Ingrese la respuesta o ingrese "*" para ver una pista ==> ')
+            if r =='*':
+                p = self.ver_pista_juego(jugador, p)
+            elif r == str(respuesta):
+                print(f'Es correcto, ganaste: {self.recompensa}')
+                jugador.ganar_vida(1)
+                return True
+            elif (r == str(float(respuesta))):
+                print(f'Es correcto, ganaste: {self.recompensa}')
+                jugador.ganar_vida(1)
+                return True
+            else:
+                jugador.perder_vida(1/4)
+                print(f'Incorrecto, a este paso no llegaras a mate II... Pierdes un cuarto de vida. \nVidas actuales: {jugador.vidas}')
 
 
 

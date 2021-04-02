@@ -44,12 +44,13 @@ class Criptograma(Juego):
         print()
         print(divisor)
 
-
-        respuesta = input('Ingrese la frase intercambiando las letras desplazadas por las originales ==> ')
-        if respuesta.lower() == self.frase.replace('Ã¡', 'a').lower():
-            print(f'Es correcto, ganaste: {self.recompensa}')
-            jugador.guardar_objeto(self.recompensa)
-        else:
-            jugador.perder_vida(1)
-            print(f'Incorrecto, pierdes una vida. Vidas actuales: {jugador.vidas}')
+        while True:
+            respuesta = input('Ingrese la frase intercambiando las letras desplazadas por las originales ==> ')
+            if respuesta.lower() == self.frase.replace('Ã¡', 'a').lower():
+                print(f'Es correcto, ganaste: {self.recompensa}')
+                jugador.guardar_objeto(self.recompensa)
+                return True
+            else:
+                jugador.perder_vida(1)
+                print(f'Incorrecto, pierdes una vida. Vidas actuales: {jugador.vidas}')
 

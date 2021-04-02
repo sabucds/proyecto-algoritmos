@@ -93,7 +93,7 @@ class Ahorcado(Juego):
                         if not '_' in formandose:
                             print(
                                 f'completaste la palabra, ganaste: {self.recompensa}')
-                            jugador.guardar_objeto(self.recompensa.lower())
+                            jugador.guardar_objeto(self.recompensa)
                             return True
             else:
                 jugador.perder_vida(1/4)

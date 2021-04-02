@@ -21,11 +21,13 @@ class PreguntasPython(Juego):
         p = 0
         while True:
             codigo = input('Ingrese el codigo o "*" para ver una pista ==> ')
-            if eval(codigo) == respuesta:
-                print(f'Correcto, ganaste: {self.recompensa}')
-                jugador.guardar_objeto(self.recompensa)
-                return True
-            elif codigo == "*":
+            try:
+                if eval(codigo) == respuesta:
+                    print(f'Correcto, ganaste: {self.recompensa}')
+                    jugador.guardar_objeto(self.recompensa)
+                    return True
+            except: pass
+            if codigo == "*":
                 p = self.ver_pista_juego(jugador, p)
             else:
                 jugador.perder_vida(1/2)

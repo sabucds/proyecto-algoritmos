@@ -26,12 +26,8 @@ class PalabraMezclada(Juego):
             p = input('Ingresa una palabra de forma ordenada ==> ').lower()
         
             if p in self.palabras:
-                for ii,palabra in enumerate(palabras_mez):
-                    es_palabra = True
-                    for letra in p:
-                        if not letra in palabra:
-                            es_palabra = False
-                    if es_palabra:
+                for ii,palabra in enumerate(self.palabras):
+                    if p == palabra.lower():
                         palabras_mez[ii] = p
                         cambiadas += 1
                         

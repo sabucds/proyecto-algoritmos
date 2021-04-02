@@ -32,6 +32,7 @@ def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda 
 
 
 def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
+    print(divisor)
     estructura = seleccion_random(objeto_tocado.juego['questions'])
     try:
         pistas = generar_lista(estructura)
@@ -79,18 +80,23 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
 
     try:
         print(colored(objeto_tocado.juego['message_requirement'], 'magenta', attrs=['bold']))
+        print()
     except:
         pass 
 
-    if juego_en_curso.verificar_jugabilidad(jugador.inventario, juegos_terminados):
+    if juego_en_curso.verificar_jugabilidad(jugador, juegos_terminados):
         if juego_en_curso.requerimento:
-            print(colored(
-                f'Tienes {juego_en_curso.requerimento} en tu inventario. Deseas usarlo?', 'magenta', attrs=['bold']))
-            r = ingresar_opcion('(S)i o (N)o', ('s','n'))
-            if r == 's':
-                jugador.usar_objeto(juego_en_curso.requerimento)
+            if not juego_en_curso.nombre == 'Adivinanzas':
+                print(colored(f'Tienes {juego_en_curso.requerimento} en tu inventario. Deseas usarlo?', 'magenta', attrs=['bold']))
+                r = ingresar_opcion('(S)i o (N)o', ('s','n'))
+                print()
+                if r == 's':
+                    jugador.usar_objeto(juego_en_curso.requerimento)
+                else:
+                    return False
             
         print(colored('Regla: ' + juego_en_curso.reglas, 'magenta', attrs=['bold']))
+        print()
         if juego_en_curso.juego(jugador):
             juegos_terminados.append(juego_en_curso.nombre)
     print(divisor)
@@ -116,7 +122,18 @@ def en_juego(jugador, cuarto_actual):
     tiempo_transcurrido = 0
     while tiempo_transcurrido < cronometro and jugador.vidas>0:
         tiempo_transcurrido = time.time() - tiempo_inicio
+        if len(juegos_terminados) == 13:
+            record = tiempo_transcurrido
+            jugador.tiempo = record
+            jugador.registrar_record()
+            print(f'Tu record de {record} segundos se ha registrado correctamente')
+            break
+            
         print(colored(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido)) % 60), 'cyan', attrs=['bold']))
+        try:
+            jugador.cuartos[cuarto_actual.nombre] += 1
+        except:
+            jugador.cuartos[cuarto_actual.nombre] = 1
 
         menu = '''Menu de opciones
 1- Ir a {}
@@ -175,7 +192,6 @@ def en_juego(jugador, cuarto_actual):
             tiempo_inicio = time.time() - tiempo_transcurrido
     clear()
     
-
 
 def comenzar(jugador, api):
     cuarto_actual = biblioteca

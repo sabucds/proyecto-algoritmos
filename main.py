@@ -12,15 +12,16 @@ def main():
         inicio = '''Bienvenido
 1-Crear nuevo usuario
 2-Ingresar con usuario existente
-3-Salir
+3-Ver los records
+4-Salir
 '''
 
         if len(data) >0:
             print(inicio)
-            opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
+            opcion = ingresar_opcion('una opcion', ('1', '2', '3', '4'))
         else:
             print(inicio.replace('2-Ingresar con usuario existente', ''))
-            opcion = ingresar_opcion('una opcion', ('1', '3'))
+            opcion = ingresar_opcion('una opcion', ('1', '3', '4'))
         print(divisor)
         if opcion == '1':
             username = crear_usuario(data)
@@ -34,6 +35,11 @@ def main():
                 if opcion == 's': break
                 username = usuario_existente()
             if opcion == 's': continue
+        
+        elif opcion == '3':
+            clear()
+            ver_records(data)
+            continue
 
         else:
             clear()
@@ -42,7 +48,6 @@ def main():
         print(divisor)
         print('''1-Comenzar nueva partida
 2-Ver instrucciones del juego
-3-Ver los records
 ''')
 
         opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
@@ -51,8 +56,6 @@ def main():
             jugador = nueva_partida(username)
             comenzar(jugador, api)
 
-        elif opcion=='2':
-            pass
         else:
             pass
 

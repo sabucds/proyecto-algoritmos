@@ -222,6 +222,7 @@ class FinalBoss(Juego):
                 return True
             if ganador == 'empate':
                 print('Hubo un empate')
+                jugador.guardar_objeto('carnet')
                 return False
 
             print('Le toca a cobranzas')
@@ -231,4 +232,5 @@ class FinalBoss(Juego):
             if ganador == 'O':
                 jugador.perder_vida(1)
                 print(f'Gano cobranzas, pierdes una vida. Vidas actuales: {jugador.vidas}')
+                jugador.guardar_objeto('carnet')
                 return False

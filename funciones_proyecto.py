@@ -7,6 +7,43 @@ import json
 import os
 import random
 
+def ver_records(data):
+    print(divisor)
+    top_5 = []
+
+    for i, dic in enumerate(data):
+        data[i]['records'] = sorted(dic['records'], key=lambda k: k['tiempo'])[0]
+    data = sorted(data, key = lambda x: x['records']['tiempo'])
+    for i in range(5):
+        try:
+            top_5.append(data[i])
+        except: pass
+    print(colored('TOP 5 MEJORES JUGADORES\n', 'grey', 'on_white'))
+    for i,juga in enumerate(top_5):
+        print(colored(str(i+1) + '- Usuario: '+ juga['username']+ '\nTiempo: '+ str(int(juga['records']['tiempo']//60)) + ':' + str(int(juga['records']['tiempo']%60)) + '\nDificultad: '+ juga['records']['dificultad'], 'cyan', attrs=['bold']))
+        print(colored('Cuartos mas jugados: ', 'cyan', attrs=['bold']))
+        cuartos_visitados = dict(sorted(juga['records']['cuartos'].items(), key = lambda item: item[1], reverse=True))
+        z = 0
+        for cuarto, cant in cuartos_visitados.items():
+            print(colored(f'{cuarto}- {cant} veces', 'cyan', attrs=['bold']))
+            z += 1
+            if z == 3:
+                break
+        print(divisor)
+    print()
+    print(colored('USUARIOS QUE MAS HAN JUGADO\n', 'grey', 'on_white'))
+
+    data = lista_datos()
+
+    for i, dic in enumerate(data):
+        data[i]['records'] = len(data[i]['records'])
+    data = sorted(data, key=lambda x: x['records'], reverse = True)
+    for i in range(5):
+        try:
+            print(colored(str(i+1)+'- '+ data[i]['username']+ "\nCantidad de partidas completadas: "+ str(data[i]['records']), 'cyan', attrs=['bold']))
+            print(divisor)
+        except: pass
+
 
 def clear():
     return os.system('clear')
@@ -77,7 +114,7 @@ def ingresar_opcion(x, rango): #valida la seleccion de una opcion
             if type(rango[0]) == int:
                 y = int(input(f'Ingrese {x} ==> '))
             else: 
-                y = input(f'Ingrese {x}: ').lower()
+                y = input(f'Ingrese {x} ==> ').lower()
             if not y in rango:
                 raise Exception
             break

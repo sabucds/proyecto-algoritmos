@@ -11,6 +11,7 @@ class EscogeNumero(Juego):
         self.respuesta = respuesta # str
     
     def juego(self, jugador):
+        self.recompensa = 'Titulo Universitario'
         print(self.pregunta)
         numero = random.randint(1,15)
         pistas = self.pistas[0].split(', ')
@@ -19,6 +20,13 @@ class EscogeNumero(Juego):
 
         while True:
             n = ingresar_opcion('un numero', range(1,16))
+            if n == numero:
+                print(f'Acertaste, ganaste: {self.recompensa}')
+                jugador.guardar_objeto(self.recompensa)
+                return True
+            else:
+                print(f'Incorrecto, llevas {intentos} intentos')
+            
             pista = input('Ingresa "*" si quieres usar una pista u otra tecla para omitir ==>')
             if pista == "*":
                 if n in range(numero-3, numero):
@@ -29,12 +37,6 @@ class EscogeNumero(Juego):
                     print(pistas[2])
                 elif n in range(numero+3, 15):
                     print(pistas[3])
-            if n == numero:
-                print(f'Acertaste, ganaste: {self.recompensa}')
-                jugador.guardar_objeto(self.recompensa)
-                return True
-            else:
-                print(f'Incorrecto, llevas {intentos} intentos')
 
             intentos +=1
             if intentos == 3:

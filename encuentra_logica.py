@@ -15,12 +15,14 @@ class EncuentraLogica(Juego):
             respuesta = '41'
         
         print(self.ecuacion)
-        r = input('Ingrese la respuesta ==> ')
-        if r == respuesta:
-            print(f'Es correcto, ganaste: {self.recompensa}')
-            jugador.guardar_objeto(self.recompensa)
-        else:
-            jugador.perder_vida(1)
-            print(f'Incorrecto, parece que el título te queda muy grande, pierdes una vida. Vidas actuales: {jugador.vidas}')
+        while True:
+            r = input('Ingrese la respuesta ==> ')
+            if r == respuesta:
+                print(f'Es correcto, ganaste: {self.recompensa}')
+                jugador.guardar_objeto(self.recompensa)
+                return True
+            else:
+                jugador.perder_vida(1)
+                print(f'Incorrecto, parece que el título te queda muy grande, pierdes una vida. Vidas actuales: {jugador.vidas}')
 
 
