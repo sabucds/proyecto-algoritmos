@@ -8,13 +8,15 @@ class FinalBoss(Juego):
         super().__init__(nombre, recompensa, reglas, requerimento, pistas)
     
     def imprimir_tablero(self, tablero):
-        linea = 0
+        linea = 1
+        print()
         for fila in tablero:
             print("  ", end='')
             print(" | ".join(fila))
             if linea < 3:
                 print('+---+---+---+')
-                linea +=1
+                linea += 1
+        print()
 
     
     def poner_pieza(self, letra, tablero, mov):
@@ -40,7 +42,7 @@ class FinalBoss(Juego):
                         return 'X'
                     else:
                         return 'O'
-                elif ((tablero[0][0] == tablero[1][1] and tablero[1][1] == tablero[2][2]) or (tablero[0][2] == tablero[1][1] and tablero[1][1] == tablero[2][0])) and tablero[0][0] in ('X', 'O'):
+                elif ((tablero[0][0] == tablero[1][1] and tablero[1][1] == tablero[2][2]) or (tablero[0][2] == tablero[1][1] and tablero[1][1] == tablero[2][0])) and tablero[1][1] in ('X', 'O'):
                     if tablero[1][1] == 'X':
                         return 'X'
                     else:
@@ -57,7 +59,7 @@ class FinalBoss(Juego):
                             mov_posibles.append(ii+1)
                         elif i == 1:
                             mov_posibles.append(ii+1+3)
-                        else:
+                        elif i == 2:
                             mov_posibles.append(ii+1+6)
                 else:
                     if espacio == ' ':
@@ -67,9 +69,13 @@ class FinalBoss(Juego):
                             mov_posibles.append(ii+1+3)
                         else:
                             mov_posibles.append(ii+1+6)
-        if condicion:
+        if condicion and len(mov_posibles)>0:
             return random.choice(mov_posibles)
-        return mov_posibles
+        if condicion and len(mov_posibles) == 0:
+            return False
+        if not condicion:
+            return mov_posibles
+        
     
     def buscar_jugada(self, tablero, letra):
         mov = False
@@ -93,44 +99,58 @@ class FinalBoss(Juego):
         for i, fila in enumerate(tablero):
             for ii, espacio in enumerate(fila):
                 try:
-                    if tablero[i][ii] == tablero[i+1][ii+1] and tablero[i][ii]==letra:
-                        mov = self.elegir_random(tablero, [(0, 0), (1, 1), (2, 2)])
+                    if tablero[i][ii] == tablero[i+1][ii+1] and tablero[i][ii] == letra:
+                        print('a')
+                        return self.elegir_random(tablero, [(0, 0), (1, 1), (2, 2)])
                     
-                    elif tablero[i][ii] == tablero[i-1][ii-1] and tablero[i][ii] == letra:
-                        mov = self.elegir_random(tablero, [(0, 2), (1, 1), (2, 0)])
+                    elif tablero[i][ii] == tablero[i+1][ii-1] and tablero[i][ii] == letra:
+                        print('b')
+                        return self.elegir_random(tablero, [(0, 2), (1, 1), (2, 0)])
 
-                    elif tablero[i][ii] == tablero[i+1][ii] and tablero[i][ii]==letra:
+                    elif tablero[i][ii] == tablero[i+1][ii] and tablero[i][ii] == letra:
+                        print('c')
                         try:
-                            posicion = (i+2, ii)
+                            if tablero[i-1][ii] == ' ':
+                                posicion = (i-1, ii)
                         except:
-                            posicion = (i-1, ii)
-                        mov = self.elegir_random(tablero, [posicion])
+                            if tablero[i+2][ii] == ' ':
+                                posicion = (i+2, ii)
+                        return self.elegir_random(tablero, [posicion])
 
                     elif tablero[i][ii] == tablero[i][ii+1] and tablero[i][ii] == letra:
+                        print('d')
                         try:
-                            posicion = (i, ii+2)
+                            if tablero[i][ii+2] == ' ':
+                                posicion = (i, ii+2)
                         except:
-                            posicion = (i, ii-1)
-                        mov = self.elegir_random(tablero, [posicion])
+                            if tablero[i][ii-1] == ' ':
+                                posicion = (i, ii-1)
+                        return self.elegir_random(tablero, [posicion])
+
+                    if tablero[i][ii] == tablero[i+2][ii] and tablero[i+1][ii] == ' ':
+                        posicion = (i+1, ii)
+                        return self.elegir_random(tablero, [posicion])
+
+                    if tablero[i][ii] == tablero[i][ii+2] and tablero[i][ii+1] == ' ':
+                        posicion = (i, ii+1)
+                        return self.elegir_random(tablero, [posicion])
+
                 except:
                     pass
         return mov
     
     def ia_mov(self, tablero):
         mov_posibles = self.elegir_random(tablero)
+        print(mov_posibles)
 
         if len(mov_posibles) == 8:
             if tablero[1][1] == ' ':
                 mov = 5
-                self.poner_pieza( 'O', tablero, mov)
             elif tablero[0][0] == ' ' or tablero[0][2] == ' ' or tablero[2][0] == ' ' or tablero[2][2] == ' ':
                 mov = self.elegir_random(tablero, [(0,0), (0,2), (2,0), (2,2)])
         
         elif len(mov_posibles) == 6:
             mov = self.jugar_o_tapar(tablero, 'X')
-            if not mov:
-                mov = self.buscar_jugada(tablero, 'O')
-            self.poner_pieza('O', tablero, mov)
 
         else:
             if self.jugar_o_tapar(tablero, 'O'):
@@ -139,10 +159,10 @@ class FinalBoss(Juego):
             else:
                 mov = self.jugar_o_tapar(tablero, 'X')
 
-            if not mov:
-                mov = self.buscar_jugada(tablero, 'O')
+        if not mov:
+            mov = self.buscar_jugada(tablero, 'O')
 
-            self.poner_pieza('O', tablero, mov)
+        self.poner_pieza('O', tablero, mov)
 
 
     def jugador_mov(self, tablero):
@@ -165,15 +185,7 @@ class FinalBoss(Juego):
             if ganador == 'X':
                 print(f'Ganaste! lograste recuperar el disco duro')
                 return True
-            else:
+            if ganador == 'O':
                 jugador.perder_vida(1)
                 print(f'Gano cobranzas, pierdes una vida. Vidas actuales: {jugador.vidas}')
-
-
-
-
-
-
-
-
-
+                return False
