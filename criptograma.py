@@ -31,13 +31,13 @@ class Criptograma(Juego):
                 pass
         frase_desplazada = ''.join(frase_desplazada)
         print(frase_desplazada)
-        
+        print()
         print('Alfabeto desplazado:')
         for letra in alfabeto_desplazado:
             print(letra, end=' | ')
         print()
         print(divisor)
-
+        print()
         print('Alfabeto original:')
         for letra in alfabeto:
             print(letra, end=' | ')

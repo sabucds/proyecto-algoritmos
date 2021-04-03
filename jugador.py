@@ -57,7 +57,6 @@ class Jugador():
                 partida['dificultad'] = self.dificultad
                 partida['tiempo'] = self.tiempo
                 partida['cuartos'] = self.cuartos
-                print(partida)
                 data[i]['records'].append(partida)
 
         with open('datos.json', 'w') as datos:

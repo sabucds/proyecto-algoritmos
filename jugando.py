@@ -123,7 +123,7 @@ def en_juego(jugador, cuarto_actual):
         if len(juegos_terminados) == 13:
             jugador.tiempo = tiempo_transcurrido
             jugador.registrar_record()
-            print(colored(f'Tu record de {tiempo_transcurrido} segundos se ha registrado correctamente', 'magenta', attrs=['bold']))
+            print(colored(f'Tu record de {tiempo_transcurrido//60}:{tiempo_transcurrido%60} se ha registrado correctamente', 'magenta', attrs=['bold']))
             break
             
         print(colored(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido)) % 60), 'cyan', attrs=['bold']))
@@ -192,7 +192,7 @@ def en_juego(jugador, cuarto_actual):
 
     if not len(juegos_terminados) == 13 and (jugador.vidas <= 0 or not tiempo_transcurrido):
         print(colored('\nHAS PERDIDO\n','white', 'on_red'))
-    print(colored('Saliendo...', 'magenta', attrs=['bold']))
+    print(colored('\nSaliendo...', 'magenta', attrs=['bold']))
     time.sleep(2)
     clear()
     

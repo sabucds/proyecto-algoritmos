@@ -1,5 +1,7 @@
 from jugador import *
 from juego import *
+from narrativas import *
+from termcolor import colored
 
 class EncuentraLogica(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, ecuacion, pistas):
@@ -19,6 +21,7 @@ class EncuentraLogica(Juego):
             r = input('Ingrese la respuesta ==> ')
             if r == respuesta:
                 print(f'Es correcto, ganaste: {self.recompensa}')
+                print(colored(narrativa3, "magenta", attrs=['bold']))
                 jugador.guardar_objeto(self.recompensa)
                 return True
             else:

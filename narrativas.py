@@ -8,6 +8,15 @@ narrativa2 = '''Bienvenido {}, gracias por tu disposición a ayudarnos a resolve
 te encuentras actualmente ubicado en la biblioteca, revisa el menú de opciones para ver qué acciones puedes realizar. 
 Recuerda que el tiempo corre más rápido que un trimestre en este reto.'''
 
+narrativa3 = '''Recuperaste el disco duro!! Ahora falta devolverlo a donde pertenece'''
+
+narrativa4 = '''Al abrir la puerta te encuentras con cobranzas. Resulta que ellos robaron el disco y lo escondieron 
+en el Saman debido al movimiento estudiantil que se formo gracias a los aumentos trimestrales en la matricula. 
+Ahora debes vencer a cobranzas en un juego de la vieja para poder poner el disco donde pertenece y recuperar el sistema'''
+
+narrativa5 = '''Gracias {}!! Lograste recuperar el sistema y salvaste a la universidad de una tragedia.
+En cuanto a Cobranzas, ellos ya no volvera a robar nada... ni discos duros, ni el dinero de nuestros bolsillos.'''
+
 divisor = '+--------------------------------------------------------------------------------------------------------------------------------------------------+'
 
 

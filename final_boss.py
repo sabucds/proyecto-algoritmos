@@ -1,7 +1,10 @@
 from jugador import *
 from juego import *
-from funciones_proyecto import ingresar_opcion
+from narrativas import *
+from funciones_proyecto import ingresar_opcion, clear
 import random
+import time
+from termcolor import colored
 
 class FinalBoss(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, pistas):
@@ -206,12 +209,18 @@ class FinalBoss(Juego):
             [' ', ' ', ' '],
             [' ', ' ', ' ']
         ]
+        print(colored(narrativa4, 'magenta', attrs=['bold']))
+        time.sleep(3)
         self.imprimir_tablero(tablero)
         while True:
             self.jugador_mov(tablero)
             ganador = self.ganador(tablero)
             if ganador == 'X':
-                print(f'Ganaste! lograste recuperar el disco duro')
+                print(f'Ganaste! Venciste a crobanzas, ahora vas a poner el disco duro en su lugar')
+                time.sleep(1.5)
+                clear()
+                print(colored(narrativa5.format(jugador.avatar), 'magenta', attrs=['bold']))
+                time.sleep(2.5)
                 return True
             if ganador == 'empate':
                 print('Hubo un empate')
