@@ -67,12 +67,12 @@ class Memoria(Juego):
 
     def ingresar_carta(self, msg, letras, numeros):
         carta = input(f'{msg}').upper().replace(' ', '')
-        while not ((carta[0] in letras and carta[1] in numeros) or '*' in carta):
+        while not (len(carta) > 1 and (carta[0] in letras and carta[1] in numeros) or '*' in carta):
             carta = input('Error de ingreso. Ingresa el formato correcto ==> ').upper().replace(' ', '')
         return carta
 
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         print('COMO SE JUEGA: Se tiene un tablero 4x4 con cartas de memoria, las columnas tienen numeros asignados y las filas letras. \nPara voltear una carta debes colocar la letra seguido del numero. \nEjemplo: escribir "A1" para voltear la primera carta')
         self.tablero = [['😀', '🙄', '🤮', '🥰'], ['🤮', '😨', '🤓', '😷'], [
             '😨', '🤓', '🥰', '😷'], ['🤑', '🤑', '🙄', '😀']]
@@ -101,7 +101,7 @@ class Memoria(Juego):
                 continue
 
             if carta2 == '*':
-                self.revelar_posicion(carta1,tablero_juego, letras)
+                self.revelar_posicion(carta1, tablero_juego, letras)
                 carta2 = self.ingresar_carta('Ingresa la segunda carta a voltear o ingresa "*" para usar pista ==> ', letras, numeros)
 
             carta_volteada2 = self.voltear_par(carta2, tablero_juego, numeros, letras)
@@ -119,6 +119,8 @@ class Memoria(Juego):
                 jugador.guardar_objeto(self.recompensa)
                 print(f'Felicidades, ganaste: {self.recompensa}')
                 return True
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
 

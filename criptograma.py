@@ -10,7 +10,7 @@ class Criptograma(Juego):
         self.frase = frase  # str
         self.desplazamiento = desplazamiento  # int
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         alfabeto = list(string.ascii_lowercase)
         alfabeto_desplazado = []
         frase_desplazada = list(self.frase.replace('Ã¡', 'a').lower())
@@ -53,4 +53,6 @@ class Criptograma(Juego):
             else:
                 jugador.perder_vida(1)
                 print(f'Incorrecto, pierdes una vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 

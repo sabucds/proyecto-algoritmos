@@ -12,7 +12,7 @@ class Quizizz(Juego):
         self.respuesta_correcta = respuesta_correcta #str
 
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         self.opciones = random.sample(self.opciones, len(self.opciones))
         p = 0
         print(self.pregunta)
@@ -36,6 +36,9 @@ class Quizizz(Juego):
             else:
                 jugador.perder_vida(1/2)
                 print(f'Incorrecto, pierdes media vida. Vidas actuales: {jugador.vidas}')
+            
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
 

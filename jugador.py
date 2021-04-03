@@ -1,5 +1,6 @@
 from termcolor import colored
 import json
+import time
 
 class Jugador():
     def __init__(self, username, contrasena, edad, avatar, pistas, vidas, tiempo, dificultad):
@@ -53,7 +54,6 @@ class Jugador():
                 if not data[i].get('records'):
                     data[i]['records'] = []
                 partida = {}
-                print(data[i]['records'])
                 partida['dificultad'] = self.dificultad
                 partida['tiempo'] = self.tiempo
                 partida['cuartos'] = self.cuartos
@@ -62,6 +62,16 @@ class Jugador():
 
         with open('datos.json', 'w') as datos:
             json.dump(data, datos)
+    
+    def actualizar_tiempo(self, tiempo_inicio):
+        tiempo_transcurrido = time.time() - tiempo_inicio
+        if (tiempo_transcurrido >= (self.tiempo*60)) or (self.vidas == 0):
+            return False
+        else:
+            return tiempo_transcurrido
+
+
+
 
 
 

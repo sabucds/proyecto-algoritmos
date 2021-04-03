@@ -20,7 +20,6 @@ class FinalBoss(Juego):
 
     
     def poner_pieza(self, letra, tablero, mov):
-        print(mov)
         if mov in range(1, 4):
             if not tablero[0][mov-1] == ' ': 
                 return False
@@ -99,7 +98,6 @@ class FinalBoss(Juego):
             for ii, espacio in enumerate(fila):
                 try:
                     if tablero[i][ii] == tablero[i+1][ii+1] and tablero[i][ii] == letra and tablero[i+2][ii+2] == ' ':
-                        print('a')
                         return self.elegir_random(tablero, [(0, 0), (1, 1), (2, 2)])
                 except: pass
 
@@ -110,7 +108,6 @@ class FinalBoss(Juego):
 
                 try:
                     if tablero[i][ii] == tablero[i+1][ii-1] and tablero[i][ii] == letra and tablero[i+2][ii-2] == ' ':
-                        print('b')
                         return self.elegir_random(tablero, [(0, 2), (1, 1), (2, 0)])
                 except: pass
 
@@ -121,7 +118,6 @@ class FinalBoss(Juego):
 
                 try:
                     if tablero[i][ii] == tablero[i+1][ii] and tablero[i][ii] == letra and tablero[i+2][ii] == ' ':
-                        print('c')
                         posicion = (i+2, ii)
                         return self.elegir_random(tablero, [posicion])
                 except: pass
@@ -134,7 +130,6 @@ class FinalBoss(Juego):
 
                 try:
                     if tablero[i][ii] == tablero[i][ii+1] and tablero[i][ii] == letra and tablero[i][ii+2] == ' ':
-                        print('d')
                         posicion = (i, ii+2)
                         return self.elegir_random(tablero, [posicion])
                 except: pass
@@ -174,7 +169,6 @@ class FinalBoss(Juego):
     def ia_mov(self, tablero):
         mov = False
         mov_posibles = self.elegir_random(tablero)
-        print(mov_posibles)
 
         if len(mov_posibles) == 8:
             if tablero[1][1] == ' ':
@@ -195,7 +189,6 @@ class FinalBoss(Juego):
                     mov = self.jugar_o_tapar(tablero, 'X')
 
         if not mov:
-            print('hola')
             mov = random.choice(mov_posibles)
 
         self.poner_pieza('O', tablero, mov)
@@ -207,7 +200,7 @@ class FinalBoss(Juego):
             mov = ingresar_opcion('una posicion que no este ocupada', range(1,10))
 
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         tablero = [
             [' ', ' ', ' '],
             [' ', ' ', ' '],
@@ -234,3 +227,6 @@ class FinalBoss(Juego):
                 print(f'Gano cobranzas, pierdes una vida. Vidas actuales: {jugador.vidas}')
                 jugador.guardar_objeto('carnet')
                 return False
+            
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break

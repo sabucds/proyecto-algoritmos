@@ -10,7 +10,7 @@ class Ahorcado(Juego):
         self.palabra = palabra #str
 
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         muneco = ['''
   +---+
   |   |
@@ -74,7 +74,7 @@ class Ahorcado(Juego):
         p = 0
         intentos = 0
         while intentos < 7:
-            print(muneco[intentos])
+            print(colored(muneco[intentos], 'green', attrs=['bold']))
             for l in formandose:
                 print(l, end=' ')
             print()
@@ -100,6 +100,8 @@ class Ahorcado(Juego):
                 print(
                     f'Incorrecto, pierdes un cuarto de vida. Vidas actuales: {jugador.vidas}')
                 intentos += 1
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
             print(divisor)

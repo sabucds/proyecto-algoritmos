@@ -7,7 +7,7 @@ class PreguntasPython(Juego):
         self.pregunta = pregunta  # str
         self.respuesta = respuesta  # str
 
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         print(self.pregunta)
         frase = self.pregunta[self.pregunta.find('"'): self.pregunta.find('"', self.pregunta.find('"')+1)+1]
         
@@ -32,6 +32,8 @@ class PreguntasPython(Juego):
             else:
                 jugador.perder_vida(1/2)
                 print(f'Incorrecto, pierdes media vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
 

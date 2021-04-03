@@ -106,12 +106,11 @@ class Sopa(Juego):
                     else:
                         print(letra.upper(), end=' | ')
             print("\n", divisor)
+        
+        print()
 
-            
 
-
-
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
 
         palabras_lista = [x for x in self.palabras]
         alfabeto = list(string.ascii_lowercase)
@@ -140,7 +139,7 @@ class Sopa(Juego):
         for i in range(len(palabras_lista)):
             palabra = random.choice(palabras_lista)
             palabras_lista.remove(palabra)
-            posicion = random.randint(1,3)
+            posicion = random.choice([1,2,3])
             palabra_inversa = random.choice([True, False])
 
             ubicaciones[palabra] = []
@@ -181,6 +180,8 @@ class Sopa(Juego):
             else:
                 jugador.perder_vida(1/2)
                 print(f'Incorrecto, pierdes media vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
     
 
 

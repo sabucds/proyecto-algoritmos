@@ -10,7 +10,7 @@ class PalabraMezclada(Juego):
         self.categoria = categoria  # str
         self.palabras = palabras # lista
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         cambiadas = 0
         print(self.pregunta)
         print("Categoria:", self.categoria)
@@ -21,7 +21,12 @@ class PalabraMezclada(Juego):
         
         while True:
             print(divisor)
-            print('Palabras:', ", ".join(palabras_mez))
+            for palabra in palabras_mez:
+                if palabra in self.palabras:
+                    print(colored(palabra, 'red', attrs=['bold']), end=' / ')
+                else:
+                    print(palabra, end=' / ')
+            print()
 
             p = input('Ingresa una palabra de forma ordenada ==> ').lower()
         
@@ -39,6 +44,8 @@ class PalabraMezclada(Juego):
                 print(f'Ordenaste todas las palabras, ganaste: {self.recompensa}')
                 jugador.guardar_objeto(self.recompensa)
                 return True
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
 

@@ -7,7 +7,7 @@ class Adivinanzas(Juego):
         self.pregunta = pregunta  # str
         self.respuestas = respuestas  # lista
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         print(self.pregunta)
         p = 0
         while True:
@@ -23,4 +23,6 @@ class Adivinanzas(Juego):
             else:
                 jugador.perder_vida(1/2)
                 print(f'Incorrecto, pierdes media vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 

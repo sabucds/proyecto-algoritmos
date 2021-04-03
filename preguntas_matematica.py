@@ -11,7 +11,7 @@ class PreguntasMate(Juego):
         self.pregunta = pregunta
         self.respuesta = respuesta
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         print(self.pregunta)
         i = self.pregunta.find('=')
         funcion = self.pregunta[i+1:]
@@ -44,6 +44,8 @@ class PreguntasMate(Juego):
             else:
                 jugador.perder_vida(1/4)
                 print(f'Incorrecto, a este paso no llegaras a mate II... Pierdes un cuarto de vida. \nVidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
 

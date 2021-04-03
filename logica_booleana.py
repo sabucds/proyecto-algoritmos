@@ -7,7 +7,7 @@ class LogicaBooleana(Juego):
         self.pregunta = pregunta
         self.respuesta = respuesta
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         print(self.pregunta)
         while True:
             r = input('Ingresa la respuesta ==> ').title()
@@ -27,4 +27,6 @@ class LogicaBooleana(Juego):
             else:
                 jugador.perder_vida(1/2)
                 print(f'Incorrecto, pierdes media vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 

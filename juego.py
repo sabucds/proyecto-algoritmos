@@ -22,6 +22,8 @@ class Juego():
                 jugador.inventario[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')] = 'Mensaje'
                 return True
             else:
+                jugador.perder_vida(1)
+                print(colored('Pisaste el Saman!! Pierdes una vida', 'magenta', attrs=['bold']))
                 print(colored(f'No puedes jugar este juego, necesitas: {", ".join(self.requerimento)}', 'magenta', attrs=['bold']))
         else:
             if (not self.requerimento or (self.requerimento in jugador.inventario)):

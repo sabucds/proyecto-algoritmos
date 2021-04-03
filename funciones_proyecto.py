@@ -12,12 +12,16 @@ def ver_records(data):
     top_5 = []
 
     for i, dic in enumerate(data):
-        data[i]['records'] = sorted(dic['records'], key=lambda k: k['tiempo'])[0]
+        if data[i].get('records'):
+            data[i]['records'] = sorted(dic['records'], key=lambda k: k['tiempo'])[0]
+        else:
+            data.pop(i)
     data = sorted(data, key = lambda x: x['records']['tiempo'])
     for i in range(5):
         try:
             top_5.append(data[i])
         except: pass
+    
     print(colored('TOP 5 MEJORES JUGADORES\n', 'grey', 'on_white'))
     for i,juga in enumerate(top_5):
         print(colored(str(i+1) + '- Usuario: '+ juga['username']+ '\nTiempo: '+ str(int(juga['records']['tiempo']//60)) + ':' + str(int(juga['records']['tiempo']%60)) + '\nDificultad: '+ juga['records']['dificultad'], 'cyan', attrs=['bold']))
@@ -36,7 +40,10 @@ def ver_records(data):
     data = lista_datos()
 
     for i, dic in enumerate(data):
-        data[i]['records'] = len(data[i]['records'])
+        if dic.get('records'):
+            data[i]['records'] = len(data[i]['records'])
+        else:
+            data.pop(i)
     data = sorted(data, key=lambda x: x['records'], reverse = True)
     for i in range(5):
         try:

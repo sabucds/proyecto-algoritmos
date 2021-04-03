@@ -31,7 +31,7 @@ def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda 
     return cuarto_actual
 
 
-def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
+def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados, tiempo_inicio):
     print(divisor)
     estructura = seleccion_random(objeto_tocado.juego['questions'])
     try:
@@ -97,21 +97,19 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados):
             
         print(colored('Regla: ' + juego_en_curso.reglas, 'magenta', attrs=['bold']))
         print()
-        if juego_en_curso.juego(jugador):
+        if juego_en_curso.juego(jugador, tiempo_inicio):
             juegos_terminados.append(juego_en_curso.nombre)
+            
     print(divisor)
-
     time.sleep(2)
     
 
-def tocar_objeto(jugador, cuarto_actual, objeto, juegos_terminados):  # tocar objeto para jugar
-
+def tocar_objeto(jugador, cuarto_actual, objeto, juegos_terminados, tiempo_inicio):  # tocar objeto para jugar
     objeto_tocado = Objeto(objeto['name'], objeto['position'], objeto['game'])
-    llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados)
+    llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados, tiempo_inicio)
 
     if 'Lógica Booleana' in juegos_terminados and objeto_tocado.juego['name'] == 'Lógica Booleana':
         cuarto_actual = mover_cuarto(cuarto_actual, 1)
-
     return cuarto_actual
 
 
@@ -119,14 +117,13 @@ def en_juego(jugador, cuarto_actual):
     juegos_terminados = []
     tiempo_inicio = time.time()
     cronometro = jugador.tiempo * 60
-    tiempo_transcurrido = 0
-    while tiempo_transcurrido < cronometro and jugador.vidas>0:
-        tiempo_transcurrido = time.time() - tiempo_inicio
+    tiempo_transcurrido = True
+    while tiempo_transcurrido:
+        tiempo_transcurrido = jugador.actualizar_tiempo(tiempo_inicio)
         if len(juegos_terminados) == 13:
-            record = tiempo_transcurrido
-            jugador.tiempo = record
+            jugador.tiempo = tiempo_transcurrido
             jugador.registrar_record()
-            print(f'Tu record de {record} segundos se ha registrado correctamente')
+            print(colored(f'Tu record de {tiempo_transcurrido} segundos se ha registrado correctamente', 'magenta', attrs=['bold']))
             break
             
         print(colored(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido)) % 60), 'cyan', attrs=['bold']))
@@ -173,11 +170,11 @@ def en_juego(jugador, cuarto_actual):
         elif opcion == 2:
             cuarto_actual = mover_cuarto(cuarto_actual, opcion)
         elif opcion == 3:
-            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[0], juegos_terminados)
+            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[0], juegos_terminados, tiempo_inicio)
         elif opcion == 4:
-            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[1], juegos_terminados)
+            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[1], juegos_terminados, tiempo_inicio)
         elif opcion == 5:
-            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[2], juegos_terminados)
+            cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[2], juegos_terminados, tiempo_inicio)
         elif opcion == 6:
             print("Inventario: ",", ".join(jugador.inventario))
         else:
@@ -190,6 +187,13 @@ def en_juego(jugador, cuarto_actual):
             if pausa_op == 2:
                 break
             tiempo_inicio = time.time() - tiempo_transcurrido
+    
+        tiempo_transcurrido = jugador.actualizar_tiempo(tiempo_inicio)
+
+    if not len(juegos_terminados) == 13 and (jugador.vidas <= 0 or not tiempo_transcurrido):
+        print(colored('\nHAS PERDIDO\n','white', 'on_red'))
+    print(colored('Saliendo...', 'magenta', attrs=['bold']))
+    time.sleep(2)
     clear()
     
 

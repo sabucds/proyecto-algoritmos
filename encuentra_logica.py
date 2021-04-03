@@ -6,7 +6,7 @@ class EncuentraLogica(Juego):
         super().__init__(nombre, recompensa, reglas, requerimento, pistas)
         self.ecuacion = ecuacion  # str
 
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         if '45' in self.ecuacion:
             self.ecuacion = '🧡+🧡+🧡=45 \n🍌+🍌+🧡=23 \n🍌+⏰+⏰=10 \n⏰+🍌+🍌x🧡=?'
             respuesta = '67'
@@ -24,5 +24,7 @@ class EncuentraLogica(Juego):
             else:
                 jugador.perder_vida(1)
                 print(f'Incorrecto, parece que el título te queda muy grande, pierdes una vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 

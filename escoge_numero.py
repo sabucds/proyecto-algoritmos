@@ -10,7 +10,7 @@ class EscogeNumero(Juego):
         self.pregunta = pregunta  # str
         self.respuesta = respuesta # str
     
-    def juego(self, jugador):
+    def juego(self, jugador, tiempo_inicio):
         self.recompensa = 'Titulo Universitario'
         print(self.pregunta)
         numero = random.randint(1,15)
@@ -25,6 +25,7 @@ class EscogeNumero(Juego):
                 jugador.guardar_objeto(self.recompensa)
                 return True
             else:
+                intentos += 1
                 print(f'Incorrecto, llevas {intentos} intentos')
             
             pista = input('Ingresa "*" si quieres usar una pista u otra tecla para omitir ==>')
@@ -38,11 +39,12 @@ class EscogeNumero(Juego):
                 elif n in range(numero+3, 15):
                     print(pistas[3])
 
-            intentos +=1
             if intentos == 3:
                 intentos = 0
                 jugador.perder_vida(1/4)
                 print(f'Fallaste 3 veces seguidas, pierdes un cuarto de vida. Vidas actuales: {jugador.vidas}')
+            if not jugador.actualizar_tiempo(tiempo_inicio):
+                break
 
 
 
