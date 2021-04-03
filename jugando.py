@@ -123,7 +123,7 @@ def en_juego(jugador, cuarto_actual):
         if len(juegos_terminados) == 13:
             jugador.tiempo = tiempo_transcurrido
             jugador.registrar_record()
-            print(colored(f'Tu record de {tiempo_transcurrido//60}:{tiempo_transcurrido%60} se ha registrado correctamente', 'magenta', attrs=['bold']))
+            print(colored(f'Tu record de {int(tiempo_transcurrido//60)}:{int(tiempo_transcurrido%60)} se ha registrado correctamente', 'magenta', attrs=['bold']))
             break
             
         print(colored(cuarto_actual.escenario.format(jugador.vidas, jugador.pistas, (cronometro - int(tiempo_transcurrido))//60, (cronometro - int(tiempo_transcurrido)) % 60), 'cyan', attrs=['bold']))
@@ -178,7 +178,7 @@ def en_juego(jugador, cuarto_actual):
         elif opcion == 6:
             print("Inventario: ",", ".join(jugador.inventario))
         else:
-            tiempo_transcurrido = time.time() - tiempo_inicio
+            tiempo_transcurrido = jugador.actualizar_tiempo(tiempo_inicio)
             print('''PAUSA
 1-Reanudar
 2-Salir del juego

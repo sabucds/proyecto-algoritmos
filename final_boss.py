@@ -9,6 +9,7 @@ from termcolor import colored
 class FinalBoss(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, pistas):
         super().__init__(nombre, recompensa, reglas, requerimento, pistas)
+        self.intentos = 0
     
     def imprimir_tablero(self, tablero):
         linea = 1
@@ -204,12 +205,19 @@ class FinalBoss(Juego):
 
     
     def juego(self, jugador, tiempo_inicio):
+        self.intentos +=1
         tablero = [
             [' ', ' ', ' '],
             [' ', ' ', ' '],
             [' ', ' ', ' ']
         ]
-        print(colored(narrativa4, 'magenta', attrs=['bold']))
+        if self.intentos < 2:
+            print(colored(narrativa4, 'magenta', attrs=['bold']))
+            print()
+            print(colored('Cobranzas- Voy a ganar y la matricula seguira subiendo sin parar!', 'cyan'))
+        else:
+            print(colored(random.choice(dialogos_cobranzas), 'cyan'))
+
         time.sleep(3)
         self.imprimir_tablero(tablero)
         while True:
@@ -228,6 +236,7 @@ class FinalBoss(Juego):
                 return False
 
             print('Le toca a cobranzas')
+            time.sleep(0.5)
             self.ia_mov(tablero)
             ganador = self.ganador(tablero)
 

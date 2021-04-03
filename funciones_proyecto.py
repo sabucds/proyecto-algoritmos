@@ -6,10 +6,15 @@ from objeto import *
 import json 
 import os
 import random
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 def ver_records(data):
     print(divisor)
     top_5 = []
+    mejores_tiempos = []
 
     for i, dic in enumerate(data):
         if data[i].get('records'):
@@ -24,7 +29,8 @@ def ver_records(data):
     
     print(colored('TOP 5 MEJORES JUGADORES\n', 'grey', 'on_white'))
     for i,juga in enumerate(top_5):
-        print(colored(str(i+1) + '- Usuario: '+ juga['username']+ '\nTiempo: '+ str(int(juga['records']['tiempo']//60)) + ':' + str(int(juga['records']['tiempo']%60)) + '\nDificultad: '+ juga['records']['dificultad'], 'cyan', attrs=['bold']))
+        mejores_tiempos.append(int(juga['records']['tiempo']))
+        print(colored(str(i+1) + '- Usuario: '+ juga['username']+ '\nMejor tiempo: '+ str(int(juga['records']['tiempo']//60)) + ':' + str(int(juga['records']['tiempo']%60)) + '\nDificultad: '+ juga['records']['dificultad'], 'cyan', attrs=['bold']))
         print(colored('Cuartos mas jugados: ', 'cyan', attrs=['bold']))
         cuartos_visitados = dict(sorted(juga['records']['cuartos'].items(), key = lambda item: item[1], reverse=True))
         z = 0
@@ -38,6 +44,8 @@ def ver_records(data):
     print(colored('USUARIOS QUE MAS HAN JUGADO\n', 'grey', 'on_white'))
 
     data = lista_datos()
+    usuarios = []
+    cantidad_partidas = []
 
     for i, dic in enumerate(data):
         if dic.get('records'):
@@ -47,10 +55,38 @@ def ver_records(data):
     data = sorted(data, key=lambda x: x['records'], reverse = True)
     for i in range(5):
         try:
+            usuarios.append(data[i]['username'])
+            cantidad_partidas.append(data[i]['records'])
             print(colored(str(i+1)+'- '+ data[i]['username']+ "\nCantidad de partidas completadas: "+ str(data[i]['records']), 'cyan', attrs=['bold']))
             print(divisor)
         except: pass
+    
+    op = input('Ingresa "*" para ver graficas de las estadisticas u otra tecla para salir ==> ')
+    if op == '*':
 
+        x = np.arange(len(usuarios))  # the label locations
+        width = 0.35  # the width of the bars
+
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(x - width/2, mejores_tiempos, width, label='Mejor tiempo')
+        rects2 = ax.bar(x + width/2, cantidad_partidas, width, label='Cantidad de partidas ganadas')
+
+        # Add some text for labels, title and custom x-axis tick labels, etc.
+        ax.set_ylabel('Record')
+        ax.set_title('Records de tiempo y partidas ganadas por cada jugador')
+        ax.set_xticks(x)
+        ax.set_xticklabels(usuarios)
+        ax.legend()
+
+        ax.bar_label(rects1, padding=3)
+        ax.bar_label(rects2, padding=3)
+
+        fig.tight_layout()
+
+        plt.show()
+
+    else:
+        clear()
 
 def clear():
     return os.system('clear')

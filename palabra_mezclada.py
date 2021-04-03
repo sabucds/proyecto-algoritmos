@@ -16,8 +16,10 @@ class PalabraMezclada(Juego):
         print("Categoria:", self.categoria)
         palabras_mez = []
         for palabra in self.palabras:
-            palabra_desordenada = random.sample(palabra, len(palabra))
-            palabras_mez.append("".join(palabra_desordenada))
+            palabra_desordenada = "".join(random.sample(palabra, len(palabra)))
+            while palabra_desordenada == palabra:
+                palabra_desordenada = "".join(random.sample(palabra, len(palabra)))
+            palabras_mez.append(palabra_desordenada)
         
         while True:
             print(divisor)

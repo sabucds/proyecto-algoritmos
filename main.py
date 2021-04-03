@@ -3,6 +3,7 @@ from manejo_api import *
 from jugando import *
 import json
 from narrativas import *
+from termcolor import colored
 
 
 def main():
@@ -57,8 +58,6 @@ def main():
             comenzar(jugador, api)
 
         else:
-            pass
-
-
+            print(colored(instrucciones, 'cyan', attrs=['bold']))
 
 main()
