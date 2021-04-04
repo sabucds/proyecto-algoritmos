@@ -45,19 +45,21 @@ def main():
         else:
             clear()
             break
-
-        print(divisor)
-        print('''1-Comenzar nueva partida
+        
+        while True:
+            print(divisor)
+            print('''1-Comenzar nueva partida
 2-Ver instrucciones del juego
 ''')
 
-        opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
-        print(divisor)
-        if opcion == '1':
-            jugador = nueva_partida(username)
-            comenzar(jugador)
+            opcion = ingresar_opcion('una opcion', ('1', '2', '3'))
+            print(divisor)
+            if opcion == '1':
+                jugador = nueva_partida(username)
+                comenzar(jugador)
+                break
 
-        else:
-            print(colored(instrucciones, 'cyan', attrs=['bold']))
+            else:
+                print(colored(instrucciones, 'cyan', attrs=['bold']))
 
 main()

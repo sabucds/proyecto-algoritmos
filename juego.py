@@ -23,7 +23,7 @@ class Juego():
             return False
         
         if self.nombre == 'Juego Libre' and len(juegos_terminados) < 12:
-            print(colored('Para desbloquear este juego necesitas un carnet y haber ganado los demas juegos', 'magenta', attrs=['bold']))
+            print(colored('Para desbloquear este juego necesitas un carnet, el disco duro y haber ganado los demas juegos', 'magenta', attrs=['bold']))
             return False
 
         if self.nombre == 'Adivinanzas' and 'contraseÃ±a' in jugador.inventario:
@@ -32,16 +32,16 @@ class Juego():
 
         if type(self.requerimento) == list:
             try:
-                if (self.requerimento[0] in jugador.inventario) and (self.requerimento[1] in jugador.inventario): #[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')]
-                    #jugador.inventario[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')] = 'Mensaje'
+                if (self.requerimento[0] in jugador.inventario) and (self.requerimento[1] in jugador.inventario): 
                     return True
-                else:
+                elif self.nombre == 'Encuentra la lÃ³gica y resuelve':
                     jugador.perder_vida(1)
                     print(colored('Pisaste el Saman!! Pierdes una vida', 'magenta', attrs=['bold']))
-                    print(colored(f'No puedes jugar este juego, necesitas: {", ".join(self.requerimento)}', 'magenta', attrs=['bold']))
+                print(colored(f'No puedes jugar este juego, necesitas: {", ".join(self.requerimento)}', 'magenta', attrs=['bold']))
             except:
-                jugador.perder_vida(1)
-                print(colored('Pisaste el Saman!! Pierdes una vida', 'magenta', attrs=['bold']))
+                if self.nombre == 'Encuentra la lógica y resuelve':
+                    jugador.perder_vida(1)
+                    print(colored('Pisaste el Saman!! Pierdes una vida', 'magenta', attrs=['bold']))
                 print(colored(f'No puedes jugar este juego, necesitas: {", ".join(self.requerimento)}', 'magenta', attrs=['bold']))
         else:
             if (not self.requerimento or (self.requerimento in jugador.inventario)):

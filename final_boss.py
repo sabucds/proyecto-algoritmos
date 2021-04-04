@@ -221,6 +221,7 @@ class FinalBoss(Juego):
             [' ', ' ', ' '],
             [' ', ' ', ' ']
         ]
+        print(colored(narrativa4, 'magenta', attrs=['bold']))
 
         print(colored(random.choice(dialogos_cobranzas), 'cyan'))
 
@@ -238,7 +239,8 @@ class FinalBoss(Juego):
                 return True
             if ganador == 'empate':
                 print('Hubo un empate')
-                jugador.guardar_objeto('carnet')
+                for r in self.requerimento:
+                    jugador.guardar_objeto(r)
                 return False
 
             print(colored('Le toca a cobranzas', 'magenta', attrs=['bold']))
@@ -249,7 +251,8 @@ class FinalBoss(Juego):
             if ganador == 'O':
                 jugador.perder_vida(1)
                 print(f'Gano cobranzas, pierdes una vida. Vidas actuales: {jugador.vidas}')
-                jugador.guardar_objeto('carnet')
+                for r in self.requerimento:
+                    jugador.guardar_objeto(r)
                 return False
             
             if not jugador.actualizar_tiempo(tiempo_inicio):

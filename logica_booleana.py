@@ -22,7 +22,7 @@ class LogicaBooleana(Juego):
             out = out[out.find('=')+1:]
             respuesta = eval(out)
             if r == respuesta:
-                jugador.guardar_objeto(self.recompensa)
+                jugador.ganar_vida(1)
                 print(f'Correcto, ganaste: {self.recompensa}')
                 return True
             else:
