@@ -33,11 +33,11 @@ class PreguntasMate(Juego):
             r = input('Ingrese la respuesta o ingrese "*" para ver una pista ==> ')
             if r =='*':
                 p = self.ver_pista_juego(jugador, p)
-            elif r == str(respuesta):
+            elif r.replace(' ', '') == str(respuesta):
                 print(f'Es correcto, ganaste: {self.recompensa}')
                 jugador.ganar_vida(1)
                 return True
-            elif (r == str(float(respuesta))):
+            elif (r.replace(' ', '') == str(float(respuesta))):
                 print(f'Es correcto, ganaste: {self.recompensa}')
                 jugador.ganar_vida(1)
                 return True

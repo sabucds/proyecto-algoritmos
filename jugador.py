@@ -70,8 +70,6 @@ class Jugador():
     def registrar_record(self):
         """[busca el usuario que esta jugando y mete su record en su diccionario en el archivo datos]
         """
-        with open('dificultad.json') as dificultad:
-            dic_nivel = json.load(dificultad)
         with open('datos.json') as datos:
             data = json.load(datos)
         
@@ -98,7 +96,7 @@ class Jugador():
             [bool]: [retorna falso si el usuario se quedo sin vidas o tiempo, sino, retorna el tiempo actualizado]
         """
         tiempo_transcurrido = time.time() - tiempo_inicio
-        if (tiempo_transcurrido >= (self.tiempo*60)) or (self.vidas == 0):
+        if (tiempo_transcurrido >= (self.tiempo*60)) or (self.vidas <= 0):
             return False
         else:
             return tiempo_transcurrido

@@ -78,17 +78,18 @@ class Ahorcado(Juego):
             for l in formandose:
                 print(l, end=' ')
             print()
-            r = input('Ingresa la palabra, una letra  "*" si quieres usar una pista ==> ')
+            r = input('Ingresa la palabra, una letra  "*" si quieres usar una pista ==> ').lower()
+
             if r == "*":
                 p = self.ver_pista_juego(jugador, p)
             
-            elif r == self.palabra.lower():
+            elif r.replace(' ', '') == self.palabra.lower():
                 print(f'Es correcto, ganaste: {self.recompensa}')
                 jugador.guardar_objeto(self.recompensa)
                 return True
-            elif r in self.palabra.lower():
+            elif r.replace(' ', '') in self.palabra.lower():
                 for i, letra in enumerate(palabra):
-                    if letra == r:
+                    if letra == r.replace(' ', ''):
                         formandose[i] = formandose[i].replace('_', letra)
                         if not '_' in formandose:
                             print(
@@ -102,7 +103,6 @@ class Ahorcado(Juego):
                 intentos += 1
             if not jugador.actualizar_tiempo(tiempo_inicio):
                 break
-
 
             print(divisor)
         if intentos >= 7:

@@ -32,10 +32,10 @@ class PalabraMezclada(Juego):
 
             p = input('Ingresa una palabra de forma ordenada ==> ').lower()
         
-            if p in self.palabras:
+            if p.replace(' ', '') in self.palabras:
                 for ii,palabra in enumerate(self.palabras):
-                    if p == palabra.lower():
-                        palabras_mez[ii] = p
+                    if p.replace(' ', '') == palabra.lower():
+                        palabras_mez[ii] = p.replace(' ', '')
                         cambiadas += 1
                         
             else:

@@ -18,6 +18,7 @@ def ver_records(data):
         data ([list]): [lista con los datos de cada jugador]
     """
     print(divisor)
+    para_borrar = []
     top_5 = []
     mejores_tiempos = []
 
@@ -25,14 +26,19 @@ def ver_records(data):
         if data[i].get('records'):
             data[i]['records'] = sorted(dic['records'], key=lambda k: k['tiempo'])[0]
         else:
-            data.pop(i)
+            para_borrar.append(i)
+
+    for i in para_borrar:
+        data.pop(i)
+
     data = sorted(data, key = lambda x: x['records']['tiempo'])
     for i in range(5):
         try:
             top_5.append(data[i])
         except: pass
     
-    print(colored('TOP 5 MEJORES JUGADORES\n', 'grey', 'on_white'))
+    print(colored('TOP 5 MEJORES JUGADORES', 'grey', 'on_white'))
+    print()
     for i,juga in enumerate(top_5):
         mejores_tiempos.append(int(juga['records']['tiempo']))
         print(colored(str(i+1) + '- Usuario: '+ juga['username']+ '\nMejor tiempo: '+ str(int(juga['records']['tiempo']//60)) + ':' + str(int(juga['records']['tiempo']%60)) + '\nDificultad: '+ juga['records']['dificultad'], 'cyan', attrs=['bold']))
@@ -46,7 +52,8 @@ def ver_records(data):
                 break
         print(divisor)
     print()
-    print(colored('USUARIOS QUE MAS HAN JUGADO\n', 'grey', 'on_white'))
+    print(colored('USUARIOS QUE MAS HAN JUGADO', 'grey', 'on_white'))
+    print()
 
     data = lista_datos()
     usuarios = []
@@ -55,8 +62,10 @@ def ver_records(data):
     for i, dic in enumerate(data):
         if dic.get('records'):
             data[i]['records'] = len(data[i]['records'])
-        else:
-            data.pop(i)
+
+    for i in para_borrar:
+        data.pop(i)
+    
     data = sorted(data, key=lambda x: x['records'], reverse = True)
     for i in range(5):
         try:
@@ -66,32 +75,31 @@ def ver_records(data):
             print(divisor)
         except: pass
     
-    op = input('Ingresa "*" para ver graficas de las estadisticas u otra tecla para salir ==> ')
-    if op == '*':
+    # op = input('Ingresa "*" para ver graficas de las estadisticas u otra tecla para salir ==> ')
+    # if op == '*':
 
-        x = np.arange(len(usuarios))  # the label locations
-        width = 0.35  # the width of the bars
+    #     x = np.arange(len(usuarios)) 
+    #     width = 0.35  
 
-        fig, ax = plt.subplots()
-        rects1 = ax.bar(x - width/2, mejores_tiempos, width, label='Mejor tiempo')
-        rects2 = ax.bar(x + width/2, cantidad_partidas, width, label='Cantidad de partidas ganadas')
+    #     fig, ax = plt.subplots()
+    #     rects1 = ax.bar(x - width/2, mejores_tiempos, width, label='Mejor tiempo')
+    #     rects2 = ax.bar(x + width/2, cantidad_partidas, width, label='Cantidad de partidas ganadas')
 
-        # Add some text for labels, title and custom x-axis tick labels, etc.
-        ax.set_ylabel('Record')
-        ax.set_title('Records de tiempo y partidas ganadas por cada jugador')
-        ax.set_xticks(x)
-        ax.set_xticklabels(usuarios)
-        ax.legend()
+    #     ax.set_ylabel('Record')
+    #     ax.set_title('Records de tiempo y partidas ganadas por cada jugador')
+    #     ax.set_xticks(x)
+    #     ax.set_xticklabels(usuarios)
+    #     ax.legend()
 
-        ax.bar_label(rects1, padding=3)
-        ax.bar_label(rects2, padding=3)
+    #     ax.bar_label(rects1, padding=3)
+    #     ax.bar_label(rects2, padding=3)
 
-        fig.tight_layout()
+    #     fig.tight_layout()
 
-        plt.show()
+    #     plt.show()
 
-    else:
-        clear()
+    # else:
+    #     clear()
 
 def clear():
     """[limpia la consola]
@@ -332,7 +340,7 @@ def crear_usuario(data):
 
     n_jugador = {}
     while True:
-        username = input('Ingrese su nombre de usuario: ')
+        username = input('Ingrese su nombre de usuario: ').lower()
         if not validar_dato(username):
             break
         print('El usuario ya existe, ingrese otro')
@@ -357,7 +365,7 @@ def usuario_existente():
     Returns:
         [str]: [nombre de usuario]
     """
-    username = input('Ingrese su nombre de usuario: ')
+    username = input('Ingrese su nombre de usuario: ').lower()
     contrasena = input('Ingrese su contrasena: ')
 
     if not validar_dato(username) or not validar_dato(contrasena):

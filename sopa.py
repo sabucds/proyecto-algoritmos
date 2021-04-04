@@ -161,10 +161,10 @@ class Sopa(Juego):
         while True:
             respuesta = input('Ingrese una palabra o "*" para usar una pista ==> ').upper()
 
-            if respuesta in self.palabras:
-                palabras_encontradas.append(ubicaciones[respuesta])
+            if respuesta.replace(' ', '') in self.palabras:
+                palabras_encontradas.append(ubicaciones[respuesta.replace(' ', '')])
                 self.imprimir_sopa(sopa, palabras_encontradas)
-                self.palabras.remove(respuesta)
+                self.palabras.remove(respuesta.replace(' ', ''))
 
                 if len(self.palabras) == 0:
                     print(f'Acertaste todas las palabras, ganaste: {self.recompensa}')

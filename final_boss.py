@@ -9,20 +9,29 @@ from termcolor import colored
 class FinalBoss(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, pistas):
         super().__init__(nombre, recompensa, reglas, requerimento, pistas)
-        self.intentos = 0
     
     def imprimir_tablero(self, tablero):
-        linea = 1
         print()
+        linea = 1
         for fila in tablero:
+            divi = 1
             print("  ", end='')
-            print(" | ".join(fila))
+            for espacio in fila:
+                if espacio == 'X':
+                    print(colored(espacio, 'red', attrs=['bold']), end='')
+                elif espacio == 'O':
+                    print(colored(espacio, 'cyan', attrs=['bold']), end='')
+                else:
+                    print(espacio, end='')
+                if divi < 3:
+                    print(" | ", end='')
+                    divi += 1
+            print()
             if linea < 3:
                 print('+---+---+---+')
                 linea += 1
-        print()
 
-    
+
     def poner_pieza(self, letra, tablero, mov):
         if mov in range(1, 4):
             if not tablero[0][mov-1] == ' ': 
@@ -68,6 +77,7 @@ class FinalBoss(Juego):
             return 'empate'
         return False
 
+
     def elegir_random(self, tablero, condicion=False):
         mov_posibles = []
         for i, fila in enumerate(tablero):
@@ -94,7 +104,7 @@ class FinalBoss(Juego):
             return False
         if not condicion:
             return mov_posibles
-        
+
 
     def jugar_o_tapar(self, tablero, letra):
         mov = False
@@ -169,7 +179,8 @@ class FinalBoss(Juego):
                 except:
                     pass
         return mov
-    
+
+
     def ia_mov(self, tablero):
         mov = False
         mov_posibles = self.elegir_random(tablero)
@@ -203,20 +214,15 @@ class FinalBoss(Juego):
         while not self.poner_pieza('X', tablero, mov):
             mov = ingresar_opcion('una posicion que no este ocupada', range(1,10))
 
-    
+
     def juego(self, jugador, tiempo_inicio):
-        self.intentos +=1
         tablero = [
             [' ', ' ', ' '],
             [' ', ' ', ' '],
             [' ', ' ', ' ']
         ]
-        if self.intentos < 2:
-            print(colored(narrativa4, 'magenta', attrs=['bold']))
-            print()
-            print(colored('Cobranzas- Voy a ganar y la matricula seguira subiendo sin parar!', 'cyan'))
-        else:
-            print(colored(random.choice(dialogos_cobranzas), 'cyan'))
+
+        print(colored(random.choice(dialogos_cobranzas), 'cyan'))
 
         time.sleep(3)
         self.imprimir_tablero(tablero)
@@ -235,7 +241,7 @@ class FinalBoss(Juego):
                 jugador.guardar_objeto('carnet')
                 return False
 
-            print('Le toca a cobranzas')
+            print(colored('Le toca a cobranzas', 'magenta', attrs=['bold']))
             time.sleep(0.5)
             self.ia_mov(tablero)
             ganador = self.ganador(tablero)

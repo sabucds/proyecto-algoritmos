@@ -19,7 +19,7 @@ class EncuentraLogica(Juego):
         print(self.ecuacion)
         while True:
             r = input('Ingrese la respuesta ==> ')
-            if r == respuesta:
+            if r.replace(' ','') == respuesta:
                 print(f'Es correcto, ganaste: {self.recompensa}')
                 print(colored(narrativa3, "magenta", attrs=['bold']))
                 jugador.guardar_objeto(self.recompensa)

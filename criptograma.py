@@ -46,9 +46,9 @@ class Criptograma(Juego):
 
         while True:
             respuesta = input('Ingrese la frase intercambiando las letras desplazadas por las originales ==> ')
-            if respuesta.lower() == self.frase.replace('Ã¡', 'a').lower():
+            if respuesta.lower().replace(' ', '') == self.frase.replace('Ã¡', 'a').lower().replace(' ', ''):
                 print(f'Es correcto, ganaste: {self.recompensa}')
-                jugador.guardar_objeto(self.recompensa)
+                jugador.guardar_objeto(self.recompensa.split(':')[0])
                 return True
             else:
                 jugador.perder_vida(1)

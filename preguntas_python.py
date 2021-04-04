@@ -12,11 +12,11 @@ class PreguntasPython(Juego):
         frase = self.pregunta[self.pregunta.find('"'): self.pregunta.find('"', self.pregunta.find('"')+1)+1]
         
         if '50' in frase:
-            respuesta = 50
-            #SOLUCION: int(frase[frase.find('5'):frase.find('0')+1])
+            respuesta = int(frase[frase.find('5'):frase.find('0')+1])
+            # OTRA FORMA: int(frase.split()[4].split(',')[0])
         else:
-            respuesta = frase[::-1]
-            #SOLUCION: frase[::-1]
+            respuesta = " ".join([palabra[::-1] for palabra in frase.split()])
+            # OTRA FORMA: " ".join((lambda x : [i[::-1] for i in x])(frase.split(" ")))
         
         p = 0
         while True:

@@ -11,10 +11,11 @@ class LogicaBooleana(Juego):
         print(self.pregunta)
         while True:
             r = input('Ingresa la respuesta ==> ').title()
-            if r == 'False' or r == 'Falso':
+            if r.replace(' ', '') == 'False' or r.replace(' ', '') == 'Falso':
                 r = False
-            elif r == 'True' or r == 'Verdadero':
+            elif r.replace(' ', '') == 'True' or r.replace(' ', '') == 'Verdadero':
                 r = True
+
             a = False
             b = True
             out = self.pregunta[(self.pregunta.find('=')+1):]

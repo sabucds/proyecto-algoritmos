@@ -32,8 +32,8 @@ class Juego():
 
         if type(self.requerimento) == list:
             try:
-                if (self.requerimento[0] in jugador.inventario) and (self.requerimento[1] in jugador.inventario[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')]):
-                    jugador.inventario[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')] = 'Mensaje'
+                if (self.requerimento[0] in jugador.inventario) and (self.requerimento[1] in jugador.inventario): #[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')]
+                    #jugador.inventario[jugador.inventario.index('Mensaje: Si estas gradudado puedes pisar el SamÃ¡n')] = 'Mensaje'
                     return True
                 else:
                     jugador.perder_vida(1)
