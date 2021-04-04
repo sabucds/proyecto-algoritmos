@@ -7,7 +7,6 @@ class Sopa(Juego):
     def __init__(self, nombre, recompensa, reglas, requerimento, palabras, pistas):
         super().__init__(nombre, recompensa, reglas, requerimento, pistas)
         self.palabras = palabras #lista
-        self.pistas = pistas  # lista
     
     def rellenar_espacios(self, sopa, alfabeto):
         for i, fila in enumerate(sopa):

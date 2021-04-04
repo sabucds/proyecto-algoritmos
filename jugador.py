@@ -8,12 +8,11 @@ class Jugador():
         self.contrasena = contrasena
         self.edad = edad #int
         self.avatar = avatar #str
-        self.tiempo = tiempo #tiempo que tiene para jugar
         self.inventario = [] 
         self.pistas = pistas #int
         self.vidas = vidas #int
         self.tiempo = tiempo #int
-        self.dificultad = dificultad
+        self.dificultad = dificultad #str
         self.cuartos = {} #aca va cada cuarto con la cantidad de veces que ingreso
 
     def usar_pista(self): #gastar una pista en un juego
