@@ -12,6 +12,11 @@ import numpy as np
 
 
 def ver_records(data):
+    """[Extrae e imprime las estadisticas de los jugadores]
+
+    Args:
+        data ([list]): [lista con los datos de cada jugador]
+    """
     print(divisor)
     top_5 = []
     mejores_tiempos = []
@@ -89,9 +94,22 @@ def ver_records(data):
         clear()
 
 def clear():
+    """[limpia la consola]
+
+    Returns:
+        [type]: [description]
+    """
     return os.system('clear')
 
-def generar_lista(dic): #genera una lista con las pistas de un diccionario
+def generar_lista(dic): 
+    """[genera una lista con las pistas del diccionario de cada juego de la api]
+
+    Args:
+        dic ([dict]): [description]
+
+    Returns:
+        [list]: [lista de las pistas]
+    """
     lista = []
     for k,v in dic.items():
         if 'clue' in k:
@@ -99,11 +117,24 @@ def generar_lista(dic): #genera una lista con las pistas de un diccionario
     return lista
 
 
-def seleccion_random(algo): #hace una seleccion random de una lista
+def seleccion_random(algo):
+    """[hace una seleccion random de una lista]
+
+    Args:
+        algo ([list]): [description]
+
+    Returns:
+        []: [elemento random de la lista]
+    """
     return random.choice(algo)
 
 
-def lista_datos(): # Mete una lista vacia en el archivo de datos en caso de que este en blanco
+def lista_datos(): 
+    """[Mete una lista vacia en el archivo de datos en caso de que este en blanco]
+
+    Returns:
+        [list]: [lista con los datos de los jugadores]
+    """
     with open('datos.json') as datos:
         try:
             data = json.load(datos)
@@ -111,13 +142,29 @@ def lista_datos(): # Mete una lista vacia en el archivo de datos en caso de que 
             data = []
     return data
 
-def buscar_dict_usuario(username): #busca un usuario en el archivo json y retorna su diccionario
+def buscar_dict_usuario(username): 
+    """[busca un usuario en el archivo json y retorna su diccionario]
+
+    Args:
+        username ([str]): [nombre de usuario]
+
+    Returns:
+        [dict]: [diccionario del usuario buscado con sus datos]
+    """
     data = lista_datos()
     for dic in data:
         if dic['username'] == username:
             return dic
 
 def nueva_partida(username):
+    """[pregunta la dificultad al usuario]
+
+    Args:
+        username ([str]): [nombre de usuario]
+
+    Returns:
+        [objeto]: [objeto jugador]
+    """
     jugador = buscar_dict_usuario(username)
     i = 1
     with open('dificultad.json') as dificultad:
@@ -151,7 +198,19 @@ def nueva_partida(username):
 
     return jugando
 
-def ingresar_opcion(x, rango): #valida la seleccion de una opcion
+def ingresar_opcion(x, rango): 
+    """[valida la seleccion de una opcion]
+
+    Args:
+        x ([str]): [mensaje de lo que se pide]
+        rango ([range]): [rango de opciones validas que el usuario debe poner]
+
+    Raises:
+        Exception: [si el input no pertenece al rango salta al mensaje de error]
+
+    Returns:
+        [str/int]: [el input del usuario]
+    """
     while True:
         try:
             if type(rango[0]) == int:
@@ -196,7 +255,6 @@ def mostrar_avatares():
         print(i+1, '-', avatar)
 
 
-
 def validar_dato(dato): 
     """[valida si un dato ingresado ya existe (contrasena, usuario, etc)]
 
@@ -215,7 +273,12 @@ def validar_dato(dato):
     return False
 
 
-def validar_contrasena(): #valida que la contrasena tenga al menos 8 caracteres con numeros y letras amyusculas y minusculas
+def validar_contrasena():
+    """[valida que la contrasena tenga al menos 8 caracteres con numeros y letras amyusculas y minusculas]
+
+    Returns:
+        [str]: [contrasena validada]
+    """
     while True:
         contrasena = input('Ingrese contrasena. Debe contener al menos 8 caracteres con numeros, letras mayusculas y minusculas: ')
         if (len(contrasena) >= 8) and (not " " in contrasena):
@@ -229,21 +292,45 @@ def validar_contrasena(): #valida que la contrasena tenga al menos 8 caracteres 
 
         print("La contraseña elegida no es válida")
 
-def ingresar_num_positivo(x): #valida numero positivo
+def ingresar_num_positivo(x): 
+    """[valida numero positivo]
+
+    Args:
+        x ([str]): [mensaje de lo que se pide]
+
+    Returns:
+        [str]: [input del usuario]
+    """
     y = input(f'Ingrese {x} ==> ')
     while not y.isnumeric():
         y = input('Error de ingreso, intente de nuevo: ')
     return y
 
-def ingresar_alpha(x): # Validar un input de letras
+def ingresar_alpha(x): 
+    """[Validar un input de letras]
+
+    Args:
+        x ([str]): [mensaje de lo que se pide]
+
+    Returns:
+        [str]: [input del usuario]
+    """
     y = input(f'Ingrese {x} ==> ')
     while not y.isalpha():
         y = input('Error de ingreso, intente de nuevo: ')
     return y
 
 def crear_usuario(data):
-    n_jugador = {}
+    """[le pide los datos de registro al usuario]
 
+    Args:
+        data ([dict]): [la data de los usuarios existentes]
+
+    Returns:
+        [str]: [nombre de usuario]
+    """
+
+    n_jugador = {}
     while True:
         username = input('Ingrese su nombre de usuario: ')
         if not validar_dato(username):
@@ -265,6 +352,11 @@ def crear_usuario(data):
 
 
 def usuario_existente():
+    """[le pide sus datos a un usuario que ya ha sido registrado]
+
+    Returns:
+        [str]: [nombre de usuario]
+    """
     username = input('Ingrese su nombre de usuario: ')
     contrasena = input('Ingrese su contrasena: ')
 

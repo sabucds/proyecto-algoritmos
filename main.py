@@ -55,7 +55,7 @@ def main():
         print(divisor)
         if opcion == '1':
             jugador = nueva_partida(username)
-            comenzar(jugador, api)
+            comenzar(jugador)
 
         else:
             print(colored(instrucciones, 'cyan', attrs=['bold']))

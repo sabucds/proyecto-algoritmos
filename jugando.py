@@ -23,7 +23,16 @@ import time
 from termcolor import colored
 
 
-def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda o derecha)
+def mover_cuarto(cuarto_actual, mov):  
+    """[moverse de un cuarto a otro (izquierda o derecha)]
+
+    Args:
+        cuarto_actual ([objeto]): [objeto cuarto en el que se encuentra actualmente]
+        mov ([int]): [un numero que indica si es a la derecha o a la izquierda]
+
+    Returns:
+        [objeto]: [el nuevo cuarto al que se mueve el usuario]
+    """
     if mov == 1:
         cuarto_actual = cuarto_actual.derecha
     elif mov == 2:
@@ -32,6 +41,18 @@ def mover_cuarto(cuarto_actual, mov):  # moverse de un cuarto a otro (izquierda 
 
 
 def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados, tiempo_inicio):
+    """[crea el objeto juego dependiendo del objeto que toco el usuario, verifica si el usuario lo puede jugar y llama al juego]
+
+    Args:
+        jugador ([objeto]): [jugador]
+        cuarto_actual ([objeto]): [el cuarto en el que se encuentra]
+        objeto_tocado ([objeto]): [el objeto tocado por el usuario]
+        juegos_terminados ([list]): [lista de juegos que ya jugo el usuario]
+        tiempo_inicio ([float]): [tiempo en el que el usuario comenzo a jugar]
+
+    Returns:
+        [bool]: [retorna falso si el usuario decide no usar el objeto requerido para iniciar el juego]
+    """
     print(divisor)
     estructura = seleccion_random(objeto_tocado.juego['questions'])
     try:
@@ -86,7 +107,8 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados, tiemp
 
     if juego_en_curso.verificar_jugabilidad(jugador, juegos_terminados):
         if juego_en_curso.requerimento:
-            if not juego_en_curso.nombre == 'Adivinanzas':
+            if not juego_en_curso.nombre == 'Adivinanzas': 
+                # Pregunta si quieres usar el objeto necesario para jugar. En el caso de Adivinanzas no muestro el mensaje porque yo cree un un mensaje especial para este juego
                 print(colored(f'Tienes {juego_en_curso.requerimento} en tu inventario. Deseas usarlo?', 'magenta', attrs=['bold']))
                 r = ingresar_opcion('(S)i o (N)o', ('s','n'))
                 print()
@@ -104,7 +126,19 @@ def llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados, tiemp
     time.sleep(2)
     
 
-def tocar_objeto(jugador, cuarto_actual, objeto, juegos_terminados, tiempo_inicio):  # tocar objeto para jugar
+def tocar_objeto(jugador, cuarto_actual, objeto, juegos_terminados, tiempo_inicio):  
+    """[tocar objeto para jugar. Valida si el juego que se completo es el del pasillo de los labs para moverte a el laboratorio de una vez]
+
+    Args:
+        jugador ([objeto]): [description]
+        cuarto_actual ([objeto]): [description]
+        objeto ([dict]): [diccionario del objeto escogido por el usuario (diccionario que se estrajo de la API)]
+        juegos_terminados ([list]): [lista de juegos ganados]
+        tiempo_inicio ([float]): [tiempo real en el que el jugador comenzo a jugar]
+
+    Returns:
+        [objeto]: [retorna el objeto cuarto en el que se situa el usuario]
+    """
     objeto_tocado = Objeto(objeto['name'], objeto['position'], objeto['game'])
     llamar_juego(jugador, cuarto_actual, objeto_tocado, juegos_terminados, tiempo_inicio)
 
@@ -114,6 +148,13 @@ def tocar_objeto(jugador, cuarto_actual, objeto, juegos_terminados, tiempo_inici
 
 
 def en_juego(jugador, cuarto_actual):
+    """[aca se imprime el cuarto junto con el menu, se actualiza el tiempo transcurrido y comprueba si el usuario gano todos los juegos para registrar el record]
+
+    Args:
+        jugador ([objeto]): [objeto jugador]
+        cuarto_actual ([objeto]): [objeto cuarto actual]
+    """
+
     juegos_terminados = []
     tiempo_inicio = time.time()
     cronometro = jugador.tiempo * 60
@@ -191,13 +232,21 @@ def en_juego(jugador, cuarto_actual):
         tiempo_transcurrido = jugador.actualizar_tiempo(tiempo_inicio)
 
     if not len(juegos_terminados) == 13 and (jugador.vidas <= 0 or not tiempo_transcurrido):
-        print(colored('\nHAS PERDIDO\n','white', 'on_red'))
+        print()
+        print(colored('HAS PERDIDO','white', 'on_red'))
+        print()
+        time.sleep(2)
     print(colored('\nSaliendo...', 'magenta', attrs=['bold']))
     time.sleep(2)
     clear()
     
 
-def comenzar(jugador, api):
+def comenzar(jugador):
+    """[imprime la primera narrativa y valida que el usuario acepte el reto de jugar, sino vuelve al menu]
+
+    Args:
+        jugador ([objeto]): [objeto jugador]
+    """
     cuarto_actual = biblioteca
     clear()
     print(colored(narrativa1.format(jugador.tiempo), 'magenta', attrs=['bold']))

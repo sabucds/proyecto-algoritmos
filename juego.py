@@ -8,7 +8,16 @@ class Juego():
         self.requerimento = requerimento #str
         self.pistas = pistas #lista
 
-    def verificar_jugabilidad(self, jugador, juegos_terminados): #verifica si el juego se puede jugar con el requerimento y si ya lo jugo o no
+    def verificar_jugabilidad(self, jugador, juegos_terminados): 
+        """[verifica si el juego se puede jugar con el requerimento y si ya lo jugo o no]
+
+        Args:
+            jugador ([objeto]): [objeto jugador]
+            juegos_terminados ([list]): [lista con los juegos ganados]
+
+        Returns:
+            [bool]: [retorna True si el juego se puede jugar, sino, False]
+        """
         if (self.nombre in juegos_terminados):
             print(colored('Ya jugaste este juego', 'magenta', attrs=['bold']))
             return False
@@ -41,6 +50,15 @@ class Juego():
                 print(colored(f'No puedes jugar este juego, necesitas: {self.requerimento}', 'magenta', attrs=['bold']))
     
     def ver_pista_juego(self, jugador, p):
+        """[muestra la pista en caso de que exista en la lista de pistas. Verifica si el usuario ya vio todas las pistas disponibles]
+
+        Args:
+            jugador ([objeto]): [objeto jugador]
+            p ([int]): [el contador de pistas que se muestran en cada juego, se usa para ir mostrando las pistas en orden]
+
+        Returns:
+            [type]: [description]
+        """
         try:
             self.pistas[p]
             if jugador.usar_pista():

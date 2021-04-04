@@ -105,7 +105,8 @@ class Ahorcado(Juego):
 
 
             print(divisor)
-        print('Has perdido')
+        if intentos >= 7:
+            print('Has perdido')
         return False
 
 
