@@ -26,10 +26,9 @@ def ver_records(data):
         if data[i].get('records'):
             data[i]['records'] = sorted(dic['records'], key=lambda k: k['tiempo'])[0]
         else:
-            para_borrar.append(i)
-
-    for i in para_borrar:
-        data.pop(i)
+            para_borrar.append(dic)
+    for d in para_borrar:
+        data.remove(d)
 
     data = sorted(data, key = lambda x: x['records']['tiempo'])
     for i in range(5):
@@ -63,8 +62,8 @@ def ver_records(data):
         if dic.get('records'):
             data[i]['records'] = len(data[i]['records'])
 
-    for i in para_borrar:
-        data.pop(i)
+    for d in para_borrar:
+        data.remove(d)
     
     data = sorted(data, key=lambda x: x['records'], reverse = True)
     for i in range(5):
@@ -347,6 +346,7 @@ def crear_usuario(data):
 
     contrasena = validar_contrasena()
     edad = ingresar_num_positivo('su edad')
+    print(divisor)
     mostrar_avatares()
     avatar = avatares[ingresar_index('un avatar: ', range(len(avatares)))]
     n_jugador['username'] = username

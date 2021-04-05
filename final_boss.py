@@ -243,7 +243,12 @@ class FinalBoss(Juego):
                     jugador.guardar_objeto(r)
                 return False
 
+            print(divisor)
             print(colored('Le toca a cobranzas', 'magenta', attrs=['bold']))
+            hablar = random.choice([True, False])
+            if hablar:
+                print(colored(random.choice(dialogos_cobranzas), 'cyan'))
+                
             time.sleep(0.5)
             self.ia_mov(tablero)
             ganador = self.ganador(tablero)
