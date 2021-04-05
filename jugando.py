@@ -161,6 +161,7 @@ def en_juego(jugador, cuarto_actual):
     tiempo_transcurrido = True
     while tiempo_transcurrido:
         tiempo_transcurrido = jugador.actualizar_tiempo(tiempo_inicio)
+
         if len(juegos_terminados) == 13:
             jugador.tiempo = tiempo_transcurrido
             jugador.registrar_record()
@@ -237,7 +238,7 @@ def en_juego(jugador, cuarto_actual):
         print()
         time.sleep(2)
     print(colored('\nSaliendo...', 'magenta', attrs=['bold']))
-    time.sleep(2)
+    time.sleep(1.5)
     clear()
     
 

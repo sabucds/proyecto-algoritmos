@@ -235,7 +235,7 @@ class FinalBoss(Juego):
                 time.sleep(1.5)
                 clear()
                 print(colored(narrativa5.format(jugador.avatar), 'magenta', attrs=['bold']))
-                time.sleep(2.5)
+                time.sleep(3.5)
                 return True
             if ganador == 'empate':
                 print('Hubo un empate')

@@ -73,6 +73,7 @@ class Memoria(Juego):
 
     
     def juego(self, jugador, tiempo_inicio):
+        volteadas = []
         print('COMO SE JUEGA: Se tiene un tablero 4x4 con cartas de memoria, las columnas tienen numeros asignados y las filas letras. \nPara voltear una carta debes colocar la letra seguido del numero. \nEjemplo: escribir "A1" para voltear la primera carta')
         self.tablero = [['😀', '🙄', '🤮', '🥰'], ['🤮', '😨', '🤓', '😷'], [
             '😨', '🤓', '🥰', '😷'], ['🤑', '🤑', '🙄', '😀']]
@@ -99,6 +100,10 @@ class Memoria(Juego):
             if carta1 == carta2:
                 print('Escoge dos cartas diferentes')
                 continue
+            elif carta1 in volteadas or carta2 in volteadas:
+                print()
+                print('Alguna de las cartas que ingresaste ya fue volteada, vuelve a intentar')
+                continue
 
             if carta2 == '*':
                 self.revelar_posicion(carta1, tablero_juego, letras)
@@ -111,6 +116,9 @@ class Memoria(Juego):
                 jugador.perder_vida(1/4)
                 print(f'\nIncorrecto, pierdes un cuarto de vida. Vidas actuales: {jugador.vidas}\n')
                 self.imprimir_tablero(tablero_juego, numeros, letras)
+            else:
+                volteadas.append(carta1)
+                volteadas.append(carta2)
 
             for renglon in tablero_juego:
                 if 'X' in renglon:
