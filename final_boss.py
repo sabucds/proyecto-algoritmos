@@ -228,6 +228,7 @@ class FinalBoss(Juego):
         time.sleep(3)
         self.imprimir_tablero(tablero)
         while True:
+            print(divisor)
             self.jugador_mov(tablero)
             ganador = self.ganador(tablero)
             if ganador == 'X':
@@ -248,7 +249,7 @@ class FinalBoss(Juego):
             hablar = random.choice([True, False])
             if hablar:
                 print(colored(random.choice(dialogos_cobranzas), 'cyan'))
-                
+
             time.sleep(0.5)
             self.ia_mov(tablero)
             ganador = self.ganador(tablero)

@@ -131,6 +131,7 @@ class Memoria(Juego):
                 jugador.guardar_objeto(self.recompensa)
                 print(f'Felicidades, ganaste: {self.recompensa}')
                 return True
+            
             if not jugador.actualizar_tiempo(tiempo_inicio):
                 break
 
