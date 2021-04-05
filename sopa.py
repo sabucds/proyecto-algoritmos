@@ -115,6 +115,7 @@ class Sopa(Juego):
         alfabeto = list(string.ascii_lowercase)
         p = 0
         palabras_encontradas = []
+        ingresadas = []
         ubicaciones = {}
 
         sopa = [
@@ -161,7 +162,12 @@ class Sopa(Juego):
         while True:
             respuesta = input('Ingrese una palabra o "*" para usar una pista ==> ').upper()
 
-            if respuesta.replace(' ', '') in self.palabras:
+            if respuesta.replace(' ', '') in self.palabras or respuesta.replace(' ', '') in ingresadas:
+                if respuesta.replace(' ', '') in ingresadas:
+                    print('Ya ingresaste esta palabra')
+                    continue
+                
+                ingresadas.append(respuesta.replace(' ', ''))
                 palabras_encontradas.append(ubicaciones[respuesta.replace(' ', '')])
                 self.imprimir_sopa(sopa, palabras_encontradas)
                 self.palabras.remove(respuesta.replace(' ', ''))

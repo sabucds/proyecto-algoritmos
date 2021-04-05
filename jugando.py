@@ -218,7 +218,7 @@ def en_juego(jugador, cuarto_actual):
         elif opcion == 5:
             cuarto_actual = tocar_objeto(jugador, cuarto_actual, cuarto_actual.objetos[2], juegos_terminados, tiempo_inicio)
         elif opcion == 6:
-            print(colored("Inventario: ",", ".join(jugador.inventario), 'magenta', attrs=['bold']))
+            print(colored("Inventario: " + ", ".join(jugador.inventario), 'magenta', attrs=['bold']))
         else:
             tiempo_transcurrido = jugador.actualizar_tiempo(tiempo_inicio)
             print('''PAUSA

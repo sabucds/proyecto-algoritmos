@@ -11,6 +11,7 @@ class PalabraMezclada(Juego):
         self.palabras = palabras # lista
     
     def juego(self, jugador, tiempo_inicio):
+        p_ingresadas = []
         cambiadas = 0
         print(self.pregunta)
         print("Categoria:", self.categoria)
@@ -33,11 +34,15 @@ class PalabraMezclada(Juego):
             p = input('Ingresa una palabra de forma ordenada ==> ').lower()
         
             if p.replace(' ', '') in self.palabras:
+                if p.replace(' ', '') in p_ingresadas:
+                    print('Ya ingresaste esta palabra')
+                    continue
+                p_ingresadas.append(p.replace(' ', ''))
+
                 for ii,palabra in enumerate(self.palabras):
                     if p.replace(' ', '') == palabra.lower():
                         palabras_mez[ii] = p.replace(' ', '')
                         cambiadas += 1
-                        
             else:
                 jugador.perder_vida(1/2)
                 print(f'Incorrecto, pierdes media vida. Vidas actuales: {jugador.vidas}')

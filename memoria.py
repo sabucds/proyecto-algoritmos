@@ -75,8 +75,12 @@ class Memoria(Juego):
     def juego(self, jugador, tiempo_inicio):
         volteadas = []
         print('COMO SE JUEGA: Se tiene un tablero 4x4 con cartas de memoria, las columnas tienen numeros asignados y las filas letras. \nPara voltear una carta debes colocar la letra seguido del numero. \nEjemplo: escribir "A1" para voltear la primera carta')
-        self.tablero = [['😀', '🙄', '🤮', '🥰'], ['🤮', '😨', '🤓', '😷'], [
-            '😨', '🤓', '🥰', '😷'], ['🤑', '🤑', '🙄', '😀']]
+        self.tablero = [
+            ['😀', '🙄', '🤮', '🥰'], 
+            ['🤮', '😨', '🤓', '😷'], 
+            ['😨', '🤓', '🥰', '😷'], 
+            ['🤑', '🤑', '🙄', '😀']
+            ]
         tablero_juego = [['X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X'], [
             'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X']]
         # print(self.tablero)
